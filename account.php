@@ -22,10 +22,12 @@ if ($GLOBALS['db_connected']) {
 }
 ?>
 
+<!-- Account Page Banner (Signature Theme Banner) -->
 <div class="page-banner">
     <div class="container">
-        <h1>My Account Dashboard</h1>
-        <p>Manage your account profile and view your previous orders</p>
+        <span style="color: var(--secondary-color); font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 1.5px;">CUSTOMER DASHBOARD</span>
+        <h1 style="font-size: 2.5rem; font-weight: 900; margin-top: 6px;">My Account Dashboard</h1>
+        <p>Manage your account profile and track live order progress in real-time.</p>
     </div>
 </div>
 

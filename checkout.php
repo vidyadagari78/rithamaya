@@ -66,10 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
+<!-- Checkout Page Banner (Signature Theme Banner) -->
 <div class="page-banner">
     <div class="container">
-        <h1>Checkout & Delivery</h1>
-        <p>Enter your delivery details to complete your order</p>
+        <span style="color: var(--secondary-color); font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 1.5px;">FAST & SECURE CHECKOUT</span>
+        <h1 style="font-size: 2.5rem; font-weight: 900; margin-top: 6px;">Checkout & Delivery</h1>
+        <p>Enter your shipping address and payment preferences to complete your order.</p>
     </div>
 </div>
 
