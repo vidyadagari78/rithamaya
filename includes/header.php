@@ -91,7 +91,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </header>
 
     <!-- Flash Message Container -->
-    <?php if (isset($_SESSION['success_msg']) || isset($_SESSION['error_msg']) || !$GLOBALS['db_connected']): ?>
+    <?php if (isset($_SESSION['success_msg']) || isset($_SESSION['error_msg'])): ?>
     <div class="container" style="margin-top: 20px;">
         <?php if (isset($_SESSION['success_msg'])): ?>
             <div class="alert alert-success">
@@ -107,12 +107,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
                 <i class="fas fa-times" style="cursor:pointer;" onclick="this.parentElement.remove();"></i>
             </div>
             <?php unset($_SESSION['error_msg']); ?>
-        <?php endif; ?>
-
-        <?php if (!$GLOBALS['db_connected']): ?>
-            <div class="alert alert-info">
-                <span><i class="fas fa-info-circle"></i> <strong>Note:</strong> Running in fallback preview mode. To connect live MySQL, start XAMPP MySQL and import <code>database.sql</code> into database <code>rithamaya_db</code>.</span>
-            </div>
         <?php endif; ?>
     </div>
     <?php endif; ?>
