@@ -33,6 +33,19 @@ if ($admin_page !== 'login.php') {
         .admin-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; background: #fff; padding: 16px 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
         .stat-card { background: #fff; padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 16px; }
         .stat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+
+        /* Admin Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .admin-wrapper { flex-direction: column !important; }
+            .admin-sidebar { width: 100% !important; padding: 16px 12px !important; }
+            .admin-brand { padding-bottom: 12px !important; }
+            .admin-nav { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; padding: 10px 0 0 !important; }
+            .admin-nav li { flex: 1 1 auto !important; margin-top: 0 !important; border-top: none !important; padding-top: 0 !important; }
+            .admin-nav li a { padding: 8px 12px !important; font-size: 0.82rem !important; border-radius: 8px !important; justify-content: center !important; }
+            .admin-content { width: 100% !important; padding: 14px 10px !important; overflow-x: auto !important; }
+            .admin-header-bar { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; padding: 14px !important; }
+            .cart-table, table { display: block !important; width: 100% !important; overflow-x: auto !important; white-space: nowrap !important; }
+        }
     </style>
 </head>
 <body>

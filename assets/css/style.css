@@ -3569,7 +3569,17 @@ img {
     padding: 20px 16px !important;
     border-radius: 16px !important;
   }
+
+  /* ── Account Dashboard Mobile Alignment ── */
+  .account-dashboard-grid,
+  div[style*="grid-template-columns: 1fr 2.5fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    width: 100% !important;
+  }
 }
+
+
 
 
 

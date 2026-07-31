@@ -32,7 +32,7 @@ if ($GLOBALS['db_connected']) {
 </div>
 
 <div class="container" style="margin-bottom: 80px;">
-    <div style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 40px;">
+    <div class="account-dashboard-grid" style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 40px;">
         <!-- User Sidebar Profile -->
         <div style="background: #fff; padding: 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); text-align: center; height: fit-content;">
             <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: bold; margin: 0 auto 16px;">
