@@ -3524,5 +3524,52 @@ img {
     align-items: flex-start !important;
     gap: 10px !important;
   }
+
+  /* ── Mobile Shop Hero Banner & Badges ── */
+  .shop-hero-banner {
+    padding: 30px 10px !important;
+    margin-bottom: 24px !important;
+  }
+
+  .shop-banner-title {
+    font-size: 1.75rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .shop-banner-subtitle {
+    font-size: 0.9rem !important;
+    margin-bottom: 16px !important;
+  }
+
+  .shop-banner-badges {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 6px 8px !important;
+  }
+
+  .banner-badge-item {
+    font-size: 0.7rem !important;
+    padding: 5px 10px !important;
+    border-radius: 20px !important;
+  }
+
+  /* ── Mobile FAQ & Terms Page Tweaks ── */
+  .faq-accordion-btn {
+    padding: 14px 16px !important;
+    font-size: 0.94rem !important;
+  }
+
+  .faq-accordion-content {
+    padding: 0 16px 16px !important;
+    font-size: 0.88rem !important;
+  }
+
+  div[style*="padding: 40px; border-radius: 24px;"] {
+    padding: 20px 16px !important;
+    border-radius: 16px !important;
+  }
 }
+
+
 
