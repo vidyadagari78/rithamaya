@@ -3161,9 +3161,29 @@ img {
     margin: 0 !important;
     flex-shrink: 0;
   }
+
+  .goodness-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .categories-home-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 14px !important;
+  }
+
+  .stories-home-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
 }
 
 @media (max-width: 520px) {
+  .categories-home-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
   /* 2 Compact Columns on Small Smart Phones */
   .product-grid {
     grid-template-columns: repeat(2, 1fr) !important;

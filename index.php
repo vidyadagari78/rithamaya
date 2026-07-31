@@ -351,7 +351,7 @@ if (empty($all_products)) {
             <h2 style="font-size: 2.3rem; font-family: var(--font-heading); color: #0D5728; margin-top: 6px; font-weight: 900;">Pure & Organic Goodness</h2>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 30px; align-items: center;">
+        <div class="goodness-grid" style="display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 30px; align-items: center;">
             <!-- Left Features Column -->
             <div style="display: flex; flex-direction: column; gap: 30px;">
                 <div style="background: #ffffff; padding: 22px 20px; border-radius: 18px; box-shadow: 0 6px 20px rgba(13, 87, 40, 0.05); border: 1px solid #e8dfd5; display: flex; gap: 16px; align-items: center;">
@@ -401,7 +401,7 @@ if (empty($all_products)) {
     <div class="container">
         <h2 style="font-size: 2rem; font-family: var(--font-heading); color: #0D5728; margin-bottom: 30px; text-align: center; font-weight: 900;">Product Categories</h2>
 
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+        <div class="categories-home-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
             <!-- Category 1: Health Mixes -->
             <div style="background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 15px rgba(13, 87, 40, 0.05); text-align: center; padding: 24px 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center;">
                 <div style="width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
@@ -449,21 +449,8 @@ if (empty($all_products)) {
             <h2 style="font-size: 2.3rem; font-family: var(--font-heading); color: #0D5728; margin-top: 6px; font-weight: 900;">Loved By Households Across India</h2>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
+        <div class="unique-testimonial-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
             <!-- Testimonial 1 -->
-            <div class="unique-testimonial-card">
-                <div>
-                    <!-- Top Row: Avatar & Verified Badge -->
-                    <div class="unique-card-top-row">
-                        <div class="unique-avatar-circle" style="background: #0D5728;">AR</div>
-                        <span class="unique-verified-badge"><i class="fas fa-check-circle"></i> Verified Buyer</span>
-                    </div>
-
-                    <!-- Rating Stars -->
-                    <div style="color: #5CB832; margin-bottom: 12px; font-size: 0.95rem;">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-
                     <!-- Product Mention Pill -->
                     <span class="unique-product-tag-pill">✨ RITHAMAYA 35+ Multigrain Health Mix</span>
 
@@ -551,7 +538,7 @@ if (empty($all_products)) {
     <div class="container">
         <h2 style="font-size: 2.2rem; font-family: var(--font-heading); color: #0D5728; margin-bottom: 36px; text-align: center; font-weight: 900;">Exciting New Organic Food Stories</h2>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        <div class="stories-home-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
             <!-- Story Card 1 -->
             <div style="background: #ffffff; border-radius: 18px; overflow: hidden; box-shadow: 0 6px 20px rgba(0,0,0,0.04); border: 1px solid #ededed; display: flex; flex-direction: column; transition: all 0.3s ease;">
                 <div style="height: 190px; background: #faf8f5; display: flex; align-items: center; justify-content: center; padding: 16px;">
