@@ -3176,15 +3176,81 @@ img {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
   }
+
+  /* ── About Page: story grid ── */
+  .about-story-grid,
+  div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* ── Cart Page: item + summary side-by-side → stacked ── */
+  div[style*="grid-template-columns: 1.8fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* ── Checkout page: form + summary side-by-side → stacked ── */
+  form[style*="grid-template-columns: 2fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* ── Product Detail Card ── */
+  .product-detail-card {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+    padding: 18px !important;
+  }
+
+  .product-detail-title {
+    font-size: 1.5rem !important;
+  }
+
+  .detail-main-price {
+    font-size: 1.6rem !important;
+  }
+
+  .product-detail-cart-form {
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+  }
+
+  /* ── Shop filter bar wraps on mobile ── */
+  .shop-controls {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 14px !important;
+  }
+
+  .filter-categories {
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+  }
+
+  /* ── Page banner heading ── */
+  .page-banner h1 {
+    font-size: 1.8rem !important;
+  }
+
+  /* ── Footer columns ── */
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
 }
 
+/* ─────────────────────────────────────────────────────────────
+   EXTRA-SMALL PHONES (< 520px) — 2-col product grid
+   ───────────────────────────────────────────────────────────── */
 @media (max-width: 520px) {
   .categories-home-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
   }
 
-  /* 2 Compact Columns on Small Smart Phones */
+  /* 2 compact columns for product grid */
   .product-grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 10px !important;
@@ -3195,35 +3261,95 @@ img {
     border-radius: 14px !important;
   }
 
+  .product-img-wrapper {
+    height: 120px !important;
+  }
+
   .product-card-img-stage {
     height: 120px !important;
   }
 
+  /* ── Fix: product title doesn't wrap awkwardly ── */
   .product-title {
-    font-size: 0.8rem !important;
+    font-size: 0.78rem !important;
     line-height: 1.2 !important;
-    margin-bottom: 4px !important;
+    margin-bottom: 2px !important;
   }
 
-  .product-price-val {
-    font-size: 0.95rem !important;
-  }
-
-  .ref-actions-row {
+  /* ── Fix: title/rating row – rating badge drops below title ── */
+  .ref-title-rating-row {
     flex-direction: column !important;
     gap: 4px !important;
+    align-items: flex-start !important;
+  }
+
+  .ref-star-rating {
+    font-size: 0.74rem !important;
+    padding: 1px 6px !important;
+  }
+
+  .ref-category-sub {
+    font-size: 0.74rem !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* ── Fix: price row overflow – main price + strikethrough ── */
+  .ref-price-discount-row {
+    flex-wrap: wrap !important;
+    align-items: baseline !important;
+    gap: 2px !important;
+  }
+
+  .ref-main-price {
+    font-size: 1.05rem !important;
+  }
+
+  .ref-unit-text {
+    font-size: 0.74rem !important;
+  }
+
+  .ref-original-price {
+    font-size: 0.74rem !important;
+    margin-left: 0 !important;
+    flex-basis: 100% !important; /* push to new line if needed */
+  }
+
+  .ref-pack-info {
+    font-size: 0.74rem !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* ── Fix: qty pill compact ── */
+  .ref-qty-pill {
+    padding: 4px 10px !important;
+    margin-bottom: 8px !important;
+  }
+
+  /* ── Fix: action buttons stacked full-width ── */
+  .ref-actions-row {
+    flex-direction: column !important;
+    gap: 5px !important;
   }
 
   .ref-cart-green-btn,
   .ref-bulk-inquiry-btn {
     width: 100% !important;
-    font-size: 0.74rem !important;
-    padding: 8px 2px !important;
+    font-size: 0.76rem !important;
+    padding: 9px 4px !important;
+    flex: unset !important;
   }
 
+  /* testimonials single column */
   .unique-testimonial-grid {
     grid-template-columns: 1fr !important;
     gap: 14px !important;
+  }
+
+  /* cart item card stacks image + details vertically */
+  div[style*="display: flex; align-items: center; justify-content: space-between; gap: 20px"] {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
   }
 }
 
