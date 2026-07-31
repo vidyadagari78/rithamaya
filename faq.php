@@ -27,7 +27,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<div class="container" style="margin-bottom: 80px; max-width: 900px;">
+<div class="container" style="margin-bottom: 80px;">
     <!-- FAQ Search Bar -->
     <div style="background: #ffffff; padding: 24px; border-radius: 20px; box-shadow: 0 6px 25px rgba(13, 87, 40, 0.06); border: 1px solid #e0e9e3; margin-bottom: 40px; text-align: center;">
         <h3 style="color: #0D5728; font-weight: 800; font-size: 1.3rem; margin-bottom: 12px;">Have Questions? We Have Answers.</h3>

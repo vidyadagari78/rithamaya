@@ -27,7 +27,7 @@ require_once __DIR__ . '/includes/header.php';
     </div>
 </div>
 
-<div class="container" style="margin-bottom: 80px; max-width: 920px;">
+<div class="container" style="margin-bottom: 80px;">
     <div style="background: #ffffff; padding: 40px; border-radius: 24px; box-shadow: 0 8px 30px rgba(13, 87, 40, 0.05); border: 1px solid #e0e9e3;">
         
         <div style="border-bottom: 2px solid #e0e9e3; padding-bottom: 20px; margin-bottom: 30px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
