@@ -3574,10 +3574,71 @@ img {
   .account-dashboard-grid,
   div[style*="grid-template-columns: 1fr 2.5fr"] {
     grid-template-columns: 1fr !important;
-    gap: 20px !important;
+    gap: 16px !important;
     width: 100% !important;
   }
+
+  .account-dashboard-grid > div {
+    padding: 18px 14px !important;
+    border-radius: 14px !important;
+  }
+
+  /* ── Ultra-Compact Header & Icons on Small Phones (< 520px) ── */
+  .header-wrapper {
+    padding: 8px 0 !important;
+  }
+
+  .brand-logo-img {
+    height: 36px !important;
+    max-width: 140px !important;
+  }
+
+  .header-actions {
+    gap: 4px !important;
+  }
+
+  .search-form {
+    padding: 3px 8px !important;
+    border-radius: 20px !important;
+  }
+
+  .search-input {
+    width: 70px !important;
+    font-size: 0.75rem !important;
+    padding: 2px 4px !important;
+  }
+
+  .search-input:focus {
+    width: 95px !important;
+  }
+
+  .action-btn {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .badge-count {
+    top: -4px !important;
+    right: -4px !important;
+    width: 17px !important;
+    height: 17px !important;
+    font-size: 0.65rem !important;
+  }
+
+  .mobile-toggle {
+    font-size: 1.3rem !important;
+    padding: 4px !important;
+  }
 }
+
+/* ── Prevent Horizontal Scrolling Globally ── */
+html, body {
+  overflow-x: hidden !important;
+  width: 100% !important;
+}
+
+
 
 
 
