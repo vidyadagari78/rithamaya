@@ -5,7 +5,7 @@ require_once __DIR__ . '/includes/header.php';
 $all_products = [];
 if ($GLOBALS['db_connected']) {
     try {
-        $stmt = $pdo->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id ORDER BY p.id ASC");
+        $stmt = $pdo->query("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id ORDER BY p.updated_at DESC, p.id DESC");
         $all_products = $stmt->fetchAll();
     } catch (Exception $e) {
         $all_products = [];
@@ -21,34 +21,40 @@ if (empty($all_products)) {
 <section class="hero-section new-hero-bg hero-slide-honey">
     <div class="container" style="padding: 40px 15px 35px;">
         <div class="hero-slider-wrapper">
-            <!-- Slide 1: Dry Fruits Laddu -->
-            <div class="hero-slide active" data-theme="hero-slide-honey">
+            <!-- Slide 1: RITHAMAYA Baby Ragi Sari Powder -->
+            <div class="hero-slide active">
                 <div class="new-hero-grid">
                     <div class="new-hero-content">
-                        <span class="new-hero-tag">ARTISANAL & TRADITIONAL</span>
+                        <span class="new-hero-tag">6 MONTHS TO 36 MONTHS</span>
                         <h1 class="new-hero-title">
-                            Experience the Taste<br>of <span>Traditional Laddus</span>
+                            Gentle Sprouted Ragi<br><span>Baby Cereal Powder</span>
                         </h1>
                         <div style="margin-bottom: 24px;">
-                            <a href="product.php?id=9" class="btn new-hero-btn">Explore Laddu</a>
+                            <a href="product.php?id=2" class="btn new-hero-btn">Explore Baby Ragi Sari</a>
                         </div>
                         <div class="new-hero-rating">
                             <div class="rating-dots">
-                                <span style="background:#e65100;"></span>
-                                <span style="background:#f57c00;"></span>
-                                <span style="background:#ffb74d;"></span>
+                                <span style="background:#5CB832;"></span>
+                                <span style="background:#703816;"></span>
+                                <span style="background:#0D5728;"></span>
                             </div>
-                            <span><strong>4.9/5</strong> from 2,000+ happy customers</span>
+                            <span><strong>4.9/5</strong> from 3,500+ happy mothers</span>
                         </div>
                         <div class="new-hero-trust-bar">
-                            <span><i class="fas fa-award"></i> Since 1907</span>
-                            <span><i class="fas fa-flag"></i> Make in India</span>
-                            <span><i class="fas fa-shield-check"></i> ISO Certified</span>
-                            <span><i class="fas fa-leaf"></i> Pure and Natural</span>
+                            <span><i class="fas fa-award"></i> 100% Sprouted Ragi</span>
+                            <span><i class="fas fa-shield-check"></i> NO Preservatives</span>
+                            <span><i class="fas fa-heart"></i> NO Added Sugar</span>
+                            <span><i class="fas fa-leaf"></i> Easy Digestion</span>
                         </div>
                     </div>
                     <div class="new-hero-media">
-                        <img src="assets/images/products/dry-fruits-laddu.jpg" alt="RM's Sampoorna Dry Fruits Laddu" class="new-hero-img">
+                        <div class="new-hero-video-container">
+                            <video class="new-hero-video" autoplay loop muted playsinline poster="assets/images/products/baby-ragi-sari.png">
+                                <source src="assets/videos/hero-banner-video.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="hero-video-badge"><i class="fas fa-play-circle"></i> Baby Ragi Sari Video</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -80,7 +86,13 @@ if (empty($all_products)) {
                         </div>
                     </div>
                     <div class="new-hero-media">
-                        <img src="assets/images/products/multigrain-health-mix.png" alt="35+ Multigrain Health Mix" class="new-hero-img">
+                        <div class="new-hero-video-container">
+                            <video class="new-hero-video" autoplay loop muted playsinline poster="assets/images/products/multigrain-health-mix.png">
+                                <source src="assets/videos/hero-banner-video.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="hero-video-badge"><i class="fas fa-play-circle"></i> 100% Organic Preparation</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -112,7 +124,13 @@ if (empty($all_products)) {
                         </div>
                     </div>
                     <div class="new-hero-media">
-                        <img src="assets/images/products/sambar-powder.png" alt="RM's Sampoorna Sambar Powder" class="new-hero-img">
+                        <div class="new-hero-video-container">
+                            <video class="new-hero-video" autoplay loop muted playsinline poster="assets/images/products/sambar-powder.png">
+                                <source src="assets/videos/hero-banner-video.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="hero-video-badge"><i class="fas fa-play-circle"></i> Sun-Dried Spice Processing</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,7 +162,13 @@ if (empty($all_products)) {
                         </div>
                     </div>
                     <div class="new-hero-media">
-                        <img src="assets/images/products/dhaniya-powder.png" alt="RM's Sampoorna Dhaniya Powder" class="new-hero-img">
+                        <div class="new-hero-video-container">
+                            <video class="new-hero-video" autoplay loop muted playsinline poster="assets/images/products/dhaniya-powder.png">
+                                <source src="assets/videos/hero-banner-video.mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                            <div class="hero-video-badge"><i class="fas fa-play-circle"></i> Authentic Home Grinding</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -191,7 +215,7 @@ if (empty($all_products)) {
                             <h3 class="product-title">
                                 <a href="product.php?id=<?= $product['id'] ?>"><?= sanitize($product['name']) ?></a>
                             </h3>
-                            <span class="ref-star-rating"><i class="fas fa-star" style="color:#d48800;"></i> 4.5</span>
+                            <span class="ref-star-rating"><i class="fas fa-star" style="color:#5CB832;"></i> 4.5</span>
                         </div>
 
                         <!-- Category Subtitle -->
@@ -290,15 +314,15 @@ if (empty($all_products)) {
             <div>
                 <span class="wholesome-badge">🌿 HERITAGE INGREDIENTS & TRADITIONAL TASTE</span>
                 <h2 class="wholesome-title">
-                    Wholesome Authentic Taste <i class="fas fa-wheat-awn" style="color: #d4a373;"></i><br>Goodness Anytime <i class="fas fa-pepper-hot" style="color: #d94e00;"></i>
+                    Wholesome Authentic Taste <i class="fas fa-wheat-awn" style="color: #5CB832;"></i><br>Goodness Anytime <i class="fas fa-pepper-hot" style="color: #703816;"></i>
                 </h2>
                 <p class="wholesome-desc">
                     We bring the rich taste of traditional Karnataka kitchens right to your doorstep. All our ingredients are sun-dried and ground carefully to maintain essential natural oils, authentic aromas, and nutritional power.
                 </p>
                 
                 <div class="wholesome-bullets-grid">
-                    <div><i class="fas fa-sun" style="color: #f59e0b; font-size: 1rem; margin-right: 6px;"></i> 100% Sun-Dried Spices</div>
-                    <div><i class="fas fa-mortar-pestle" style="color: #008744; font-size: 1rem; margin-right: 6px;"></i> Heritage Recipes</div>
+                    <div><i class="fas fa-sun" style="color: #5CB832; font-size: 1rem; margin-right: 6px;"></i> 100% Sun-Dried Spices</div>
+                    <div><i class="fas fa-mortar-pestle" style="color: #0D5728; font-size: 1rem; margin-right: 6px;"></i> Heritage Recipes</div>
                     <div><i class="fas fa-shield-heart" style="color: #008744; font-size: 1rem; margin-right: 6px;"></i> Zero Chemical Additives</div>
                     <div><i class="fas fa-leaf" style="color: #008744; font-size: 1rem; margin-right: 6px;"></i> Fresh Batch Ground</div>
                 </div>
@@ -320,48 +344,51 @@ if (empty($all_products)) {
 </section>
 
 <!-- 5. Section: Quality Feature Diagram ("Pure & Organic Features") -->
-<section style="background: #f9f7f2; padding: 70px 0;">
+<section style="background: #faf6f0; padding: 75px 0;">
     <div class="container">
         <div style="text-align: center; margin-bottom: 45px;">
-            <span style="color: #008744; font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">Quality Promise</span>
-            <h2 style="font-size: 2.2rem; font-family: var(--font-heading); color: #1b4332; margin-top: 6px;">Pure & Organic Goodness</h2>
+            <span style="color: #5CB832; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px;">QUALITY PROMISE</span>
+            <h2 style="font-size: 2.3rem; font-family: var(--font-heading); color: #0D5728; margin-top: 6px; font-weight: 900;">Pure & Organic Goodness</h2>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 30px; align-items: center;">
+            <!-- Left Features Column -->
             <div style="display: flex; flex-direction: column; gap: 30px;">
-                <div style="background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 16px;">
-                    <div style="font-size: 1.6rem; color: #008744;"><i class="fas fa-sun"></i></div>
+                <div style="background: #ffffff; padding: 22px 20px; border-radius: 18px; box-shadow: 0 6px 20px rgba(13, 87, 40, 0.05); border: 1px solid #e8dfd5; display: flex; gap: 16px; align-items: center;">
+                    <div style="font-size: 1.6rem; color: #5CB832; background: #e8f5e9; width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-sun"></i></div>
                     <div>
-                        <h4 style="font-size: 1rem; color: #1b4332; margin-bottom: 4px;">Sun-Dried Spices</h4>
-                        <p style="font-size: 0.82rem; color: var(--text-muted);">Slow roasted to retain natural aroma and essential oils.</p>
+                        <h4 style="font-size: 1.05rem; color: #0D5728; font-weight: 800; margin-bottom: 4px;">Sun-Dried Spices</h4>
+                        <p style="font-size: 0.84rem; color: #665b53; line-height: 1.45;">Slow roasted to retain natural aroma and essential oils.</p>
                     </div>
                 </div>
-                <div style="background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 16px;">
-                    <div style="font-size: 1.6rem; color: #008744;"><i class="fas fa-baby"></i></div>
+                <div style="background: #ffffff; padding: 22px 20px; border-radius: 18px; box-shadow: 0 6px 20px rgba(13, 87, 40, 0.05); border: 1px solid #e8dfd5; display: flex; gap: 16px; align-items: center;">
+                    <div style="font-size: 1.6rem; color: #5CB832; background: #e8f5e9; width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-baby"></i></div>
                     <div>
-                        <h4 style="font-size: 1rem; color: #1b4332; margin-bottom: 4px;">Infant Safe Nutrition</h4>
-                        <p style="font-size: 0.82rem; color: var(--text-muted);">Sprouted ragi rich in natural calcium for toddler bone health.</p>
+                        <h4 style="font-size: 1.05rem; color: #0D5728; font-weight: 800; margin-bottom: 4px;">Infant Safe Nutrition</h4>
+                        <p style="font-size: 0.84rem; color: #665b53; line-height: 1.45;">Sprouted ragi rich in natural calcium for toddler bone health.</p>
                     </div>
                 </div>
             </div>
 
-            <div style="text-align: center;">
-                <img src="assets/images/products/multigrain-health-mix.png" alt="Pure Ingredients Showcase" style="max-height: 320px; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.15));">
+            <!-- Center Product Showcase (Transparent Background, No White Container) -->
+            <div style="text-align: center; display: flex; align-items: center; justify-content: center; padding: 10px;">
+                <img src="assets/images/products/multigrain-health-mix-400g.png" alt="Pure Ingredients Showcase" style="max-height: 350px; max-width: 100%; width: auto; object-fit: contain; filter: drop-shadow(0 18px 36px rgba(13, 87, 40, 0.22)); display: block; margin: 0 auto;">
             </div>
 
+            <!-- Right Features Column -->
             <div style="display: flex; flex-direction: column; gap: 30px;">
-                <div style="background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 16px;">
-                    <div style="font-size: 1.6rem; color: #008744;"><i class="fas fa-wheat-awn"></i></div>
+                <div style="background: #ffffff; padding: 22px 20px; border-radius: 18px; box-shadow: 0 6px 20px rgba(13, 87, 40, 0.05); border: 1px solid #e8dfd5; display: flex; gap: 16px; align-items: center;">
+                    <div style="font-size: 1.6rem; color: #5CB832; background: #e8f5e9; width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-wheat-awn"></i></div>
                     <div>
-                        <h4 style="font-size: 1rem; color: #1b4332; margin-bottom: 4px;">35+ Natural Grains</h4>
-                        <p style="font-size: 0.82rem; color: var(--text-muted);">Loaded with almonds, walnuts, seeds, millets, and lotus seeds.</p>
+                        <h4 style="font-size: 1.05rem; color: #0D5728; font-weight: 800; margin-bottom: 4px;">35+ Natural Grains</h4>
+                        <p style="font-size: 0.84rem; color: #665b53; line-height: 1.45;">Loaded with almonds, walnuts, seeds, millets, and lotus seeds.</p>
                     </div>
                 </div>
-                <div style="background: #fff; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; gap: 16px;">
-                    <div style="font-size: 1.6rem; color: #008744;"><i class="fas fa-cookie"></i></div>
+                <div style="background: #ffffff; padding: 22px 20px; border-radius: 18px; box-shadow: 0 6px 20px rgba(13, 87, 40, 0.05); border: 1px solid #e8dfd5; display: flex; gap: 16px; align-items: center;">
+                    <div style="font-size: 1.6rem; color: #5CB832; background: #e8f5e9; width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;"><i class="fas fa-cookie"></i></div>
                     <div>
-                        <h4 style="font-size: 1rem; color: #1b4332; margin-bottom: 4px;">Zero Added Sugar</h4>
-                        <p style="font-size: 0.82rem; color: var(--text-muted);">Sweetened naturally with Medjool dates and dried figs in pure ghee.</p>
+                        <h4 style="font-size: 1.05rem; color: #0D5728; font-weight: 800; margin-bottom: 4px;">Zero Added Sugar</h4>
+                        <p style="font-size: 0.84rem; color: #665b53; line-height: 1.45;">Sweetened naturally with Medjool dates and dried figs in pure ghee.</p>
                     </div>
                 </div>
             </div>
@@ -372,90 +399,147 @@ if (empty($all_products)) {
 <!-- 6. Section: Product Categories Cards -->
 <section class="section" style="padding: 60px 0;">
     <div class="container">
-        <h2 style="font-size: 2rem; font-family: var(--font-heading); color: #1b4332; margin-bottom: 30px; text-align: center; font-weight: 800;">Product Categories</h2>
+        <h2 style="font-size: 2rem; font-family: var(--font-heading); color: #0D5728; margin-bottom: 30px; text-align: center; font-weight: 900;">Product Categories</h2>
 
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-            <div style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: center; padding: 20px; border: 1px solid var(--border-color);">
-                <img src="assets/images/products/multigrain-health-mix.png" alt="Health Mixes" style="height: 140px; object-fit: contain; margin-bottom: 15px;">
-                <h4 style="font-size: 1.1rem; color: #1b4332; font-weight: 800;">Health Mixes</h4>
-                <a href="shop.php?category=health-mixes" style="color: #008744; font-weight: 600; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
+            <!-- Category 1: Health Mixes -->
+            <div style="background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 15px rgba(13, 87, 40, 0.05); text-align: center; padding: 24px 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <img src="assets/images/products/multigrain-health-mix-400g.png" alt="Health Mixes" style="max-height: 150px; max-width: 100%; width: auto; object-fit: contain; margin: 0 auto; display: block;">
+                </div>
+                <h4 style="font-size: 1.1rem; color: #0D5728; font-weight: 800; margin-bottom: 6px;">Health Mixes</h4>
+                <a href="shop.php?category=health-mixes" style="color: #5CB832; font-weight: 700; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
             </div>
-            <div style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: center; padding: 20px; border: 1px solid var(--border-color);">
-                <img src="assets/images/products/sambar-powder.png" alt="Masala Powders" style="height: 140px; object-fit: contain; margin-bottom: 15px;">
-                <h4 style="font-size: 1.1rem; color: #1b4332; font-weight: 800;">Masala Powders</h4>
-                <a href="shop.php?category=masala-powders" style="color: #008744; font-weight: 600; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
+
+            <!-- Category 2: Masala Powders -->
+            <div style="background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 15px rgba(13, 87, 40, 0.05); text-align: center; padding: 24px 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <img src="assets/images/products/sambar-powder.png" alt="Masala Powders" style="max-height: 150px; max-width: 100%; width: auto; object-fit: contain; margin: 0 auto; display: block;">
+                </div>
+                <h4 style="font-size: 1.1rem; color: #0D5728; font-weight: 800; margin-bottom: 6px;">Masala Powders</h4>
+                <a href="shop.php?category=masala-powders" style="color: #5CB832; font-weight: 700; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
             </div>
-            <div style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: center; padding: 20px; border: 1px solid var(--border-color);">
-                <img src="assets/images/products/baby-ragi-sari.png" alt="Baby Food" style="height: 140px; object-fit: contain; margin-bottom: 15px;">
-                <h4 style="font-size: 1.1rem; color: #1b4332; font-weight: 800;">Baby Food</h4>
-                <a href="shop.php?category=baby-food" style="color: #008744; font-weight: 600; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
+
+            <!-- Category 3: Baby Food -->
+            <div style="background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 15px rgba(13, 87, 40, 0.05); text-align: center; padding: 24px 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <img src="assets/images/products/baby-ragi-sari.png" alt="Baby Food" style="max-height: 150px; max-width: 100%; width: auto; object-fit: contain; margin: 0 auto; display: block;">
+                </div>
+                <h4 style="font-size: 1.1rem; color: #0D5728; font-weight: 800; margin-bottom: 6px;">Baby Food</h4>
+                <a href="shop.php?category=baby-food" style="color: #5CB832; font-weight: 700; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
             </div>
-            <div style="background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.04); text-align: center; padding: 20px; border: 1px solid var(--border-color);">
-                <img src="assets/images/products/dry-fruits-laddu.jpg" alt="Sweets & Laddus" style="height: 140px; object-fit: contain; margin-bottom: 15px;">
-                <h4 style="font-size: 1.1rem; color: #1b4332; font-weight: 800;">Sweets & Laddus</h4>
-                <a href="shop.php?category=sweets-laddus" style="color: #008744; font-weight: 600; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
+
+            <!-- Category 4: Sweets & Laddus -->
+            <div style="background: #fff; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 15px rgba(13, 87, 40, 0.05); text-align: center; padding: 24px 20px; border: 1px solid var(--border-color); display: flex; flex-direction: column; align-items: center;">
+                <div style="width: 100%; height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                    <img src="assets/images/products/dry-fruits-laddu.jpg" alt="Sweets & Laddus" style="max-height: 150px; max-width: 100%; width: auto; object-fit: contain; margin: 0 auto; display: block;">
+                </div>
+                <h4 style="font-size: 1.1rem; color: #0D5728; font-weight: 800; margin-bottom: 6px;">Sweets & Laddus</h4>
+                <a href="shop.php?category=sweets-laddus" style="color: #5CB832; font-weight: 700; font-size: 0.88rem; text-decoration: underline;">Browse Category</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- 7. Section: Customer Testimonials -->
-<section style="background: #f5f2eb; padding: 70px 0;">
+<!-- 7. Section: Customer Testimonials (Unique Premium Redesign) -->
+<section style="background: #faf6f0; padding: 75px 0 85px;">
     <div class="container">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <span style="color: #008744; font-weight: 700; font-size: 0.9rem; text-transform: uppercase;">Customer Reviews</span>
-            <h2 style="font-size: 2.2rem; font-family: var(--font-heading); color: #1b4332; margin-top: 6px; font-weight: 800;">Loved By Households Across India</h2>
+        <div style="text-align: center; margin-bottom: 45px;">
+            <span style="color: #5CB832; font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1.5px;">CUSTOMER REVIEWS & TESTIMONIALS</span>
+            <h2 style="font-size: 2.3rem; font-family: var(--font-heading); color: #0D5728; margin-top: 6px; font-weight: 900;">Loved By Households Across India</h2>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;">
             <!-- Testimonial 1 -->
-            <div style="background: #ffffff; border-radius: 20px; padding: 32px 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #ededed; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="unique-testimonial-card">
                 <div>
-                    <div style="font-size: 2.4rem; color: #52b788; line-height: 1; margin-bottom: 8px;"><i class="fas fa-quote-left"></i></div>
-                    <div style="color: #f59e0b; margin-bottom: 14px; font-size: 0.95rem;">
+                    <!-- Top Row: Avatar & Verified Badge -->
+                    <div class="unique-card-top-row">
+                        <div class="unique-avatar-circle" style="background: #0D5728;">AR</div>
+                        <span class="unique-verified-badge"><i class="fas fa-check-circle"></i> Verified Buyer</span>
+                    </div>
+
+                    <!-- Rating Stars -->
+                    <div style="color: #5CB832; margin-bottom: 12px; font-size: 0.95rem;">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p style="font-size: 0.98rem; color: #4a5568; line-height: 1.65; margin-bottom: 20px;">
+
+                    <!-- Product Mention Pill -->
+                    <span class="unique-product-tag-pill">✨ RITHAMAYA 35+ Multigrain Health Mix</span>
+
+                    <!-- Quote Text -->
+                    <p class="unique-quote-text">
                         "RM Sampoorna 35+ Multigrain Health Mix and Mutton Sambar Powder are absolute staples in our home now! Authentic homemade flavor with zero preservatives."
                     </p>
+                    <span class="unique-watermark-quote">“</span>
                 </div>
-                <div>
-                    <h4 style="font-size: 1.05rem; color: #1b4332; font-weight: 800; margin-bottom: 2px;">Anusuya Rao</h4>
-                    <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">Verified Customer, Bengaluru</span>
+
+                <!-- Customer Details -->
+                <div style="border-top: 1px dashed #e6dfd5; padding-top: 16px; margin-top: auto;">
+                    <h4 style="font-size: 1.05rem; color: #0D5728; font-weight: 800; margin-bottom: 2px;">Anusuya Rao</h4>
+                    <span style="font-size: 0.82rem; color: #665b53; font-weight: 600;"><i class="fas fa-location-dot" style="color:#5CB832; margin-right: 4px;"></i> Bengaluru, Karnataka</span>
                 </div>
             </div>
 
             <!-- Testimonial 2 -->
-            <div style="background: #ffffff; border-radius: 20px; padding: 32px 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #ededed; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="unique-testimonial-card">
                 <div>
-                    <div style="font-size: 2.4rem; color: #52b788; line-height: 1; margin-bottom: 8px;"><i class="fas fa-quote-left"></i></div>
-                    <div style="color: #f59e0b; margin-bottom: 14px; font-size: 0.95rem;">
+                    <!-- Top Row: Avatar & Verified Badge -->
+                    <div class="unique-card-top-row">
+                        <div class="unique-avatar-circle" style="background: #5CB832;">PV</div>
+                        <span class="unique-verified-badge"><i class="fas fa-check-circle"></i> Verified Buyer</span>
+                    </div>
+
+                    <!-- Rating Stars -->
+                    <div style="color: #5CB832; margin-bottom: 12px; font-size: 0.95rem;">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p style="font-size: 0.98rem; color: #4a5568; line-height: 1.65; margin-bottom: 20px;">
+
+                    <!-- Product Mention Pill -->
+                    <span class="unique-product-tag-pill">👶 RITHAMAYA Baby Ragi Sari Powder</span>
+
+                    <!-- Quote Text -->
+                    <p class="unique-quote-text">
                         "The Baby Ragi Sari Powder is a life saver! My 9-month-old toddler loves the taste, and I feel relieved knowing it is 100% natural, sprouted, and organic."
                     </p>
+                    <span class="unique-watermark-quote">“</span>
                 </div>
-                <div>
-                    <h4 style="font-size: 1.05rem; color: #1b4332; font-weight: 800; margin-bottom: 2px;">Priya Venkatesh</h4>
-                    <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">Verified Customer, Mysuru</span>
+
+                <!-- Customer Details -->
+                <div style="border-top: 1px dashed #e6dfd5; padding-top: 16px; margin-top: auto;">
+                    <h4 style="font-size: 1.05rem; color: #0D5728; font-weight: 800; margin-bottom: 2px;">Priya Venkatesh</h4>
+                    <span style="font-size: 0.82rem; color: #665b53; font-weight: 600;"><i class="fas fa-location-dot" style="color:#5CB832; margin-right: 4px;"></i> Mysuru, Karnataka</span>
                 </div>
             </div>
 
             <!-- Testimonial 3 -->
-            <div style="background: #ffffff; border-radius: 20px; padding: 32px 26px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); border: 1px solid #ededed; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="unique-testimonial-card">
                 <div>
-                    <div style="font-size: 2.4rem; color: #52b788; line-height: 1; margin-bottom: 8px;"><i class="fas fa-quote-left"></i></div>
-                    <div style="color: #f59e0b; margin-bottom: 14px; font-size: 0.95rem;">
+                    <!-- Top Row: Avatar & Verified Badge -->
+                    <div class="unique-card-top-row">
+                        <div class="unique-avatar-circle" style="background: #0D5728;">RS</div>
+                        <span class="unique-verified-badge"><i class="fas fa-check-circle"></i> Verified Buyer</span>
+                    </div>
+
+                    <!-- Rating Stars -->
+                    <div style="color: #5CB832; margin-bottom: 12px; font-size: 0.95rem;">
                         <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                     </div>
-                    <p style="font-size: 0.98rem; color: #4a5568; line-height: 1.65; margin-bottom: 20px;">
+
+                    <!-- Product Mention Pill -->
+                    <span class="unique-product-tag-pill">🍯 Nutritious Dry Fruits Laddu</span>
+
+                    <!-- Quote Text -->
+                    <p class="unique-quote-text">
                         "The Dry Fruits Laddu has no added sugar yet tastes incredibly rich with ghee and dates. Perfect healthy snack for our family after evening tea."
                     </p>
+                    <span class="unique-watermark-quote">“</span>
                 </div>
-                <div>
-                    <h4 style="font-size: 1.05rem; color: #1b4332; font-weight: 800; margin-bottom: 2px;">Rajesh Sharma</h4>
-                    <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: 500;">Verified Customer, Hyderabad</span>
+
+                <!-- Customer Details -->
+                <div style="border-top: 1px dashed #e6dfd5; padding-top: 16px; margin-top: auto;">
+                    <h4 style="font-size: 1.05rem; color: #0D5728; font-weight: 800; margin-bottom: 2px;">Rajesh Sharma</h4>
+                    <span style="font-size: 0.82rem; color: #665b53; font-weight: 600;"><i class="fas fa-location-dot" style="color:#5CB832; margin-right: 4px;"></i> Hyderabad, Telangana</span>
                 </div>
             </div>
         </div>
@@ -465,7 +549,7 @@ if (empty($all_products)) {
 <!-- 8. Section: Exciting New Organic Food Stories -->
 <section class="section" style="padding: 60px 0 70px; background: #fdfbf7;">
     <div class="container">
-        <h2 style="font-size: 2.2rem; font-family: var(--font-heading); color: #1b4332; margin-bottom: 36px; text-align: center; font-weight: 800;">Exciting New Organic Food Stories</h2>
+        <h2 style="font-size: 2.2rem; font-family: var(--font-heading); color: #0D5728; margin-bottom: 36px; text-align: center; font-weight: 900;">Exciting New Organic Food Stories</h2>
 
         <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
             <!-- Story Card 1 -->

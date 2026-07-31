@@ -21,7 +21,7 @@ if ($GLOBALS['db_connected']) {
             $params[] = $selected_category;
         }
 
-        $sql .= " ORDER BY p.id ASC";
+        $sql .= " ORDER BY p.updated_at DESC, p.id DESC";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $products = $stmt->fetchAll();
@@ -127,7 +127,7 @@ if (empty($products)) {
                             <h3 class="product-title">
                                 <a href="product.php?id=<?= $product['id'] ?>"><?= sanitize($product['name']) ?></a>
                             </h3>
-                            <span class="ref-star-rating"><i class="fas fa-star" style="color:#d48800;"></i> 4.5</span>
+                            <span class="ref-star-rating"><i class="fas fa-star" style="color:#5CB832;"></i> 4.5</span>
                         </div>
 
                         <!-- Category Subtitle -->

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
 
-$product_id = isset($_GET['id']) ? (int)$_GET['id'] : 2; // Default to Baby Ragi Sari Powder if invalid
+$product_id = isset($_GET['id']) ? (int)$_GET['id'] : 1; // Default to RITHAMAYA 35+ Multigrain Health Mix
 $product = null;
 
 if ($GLOBALS['db_connected']) {
@@ -23,7 +23,7 @@ if (!$product) {
         }
     }
     if (!$product) {
-        $product = $all_mock[1]; // Default to Baby Ragi Sari Powder mock item
+        $product = $all_mock[0]; // Default to RITHAMAYA 35+ Multigrain Health Mix Powder
     }
 }
 
@@ -57,9 +57,33 @@ if (empty($related_products)) {
 
         <!-- Product Main Detail Card -->
         <div class="product-detail-card">
-            <!-- Left Column: Product Image Stage -->
+            <!-- Left Column: Product Image & Video Media Stage -->
             <div class="product-detail-img-stage">
-                <img src="<?= sanitize($product['image']) ?>" alt="<?= sanitize($product['name']) ?>" class="product-detail-img">
+                <div id="productMediaImage" class="media-tab-content active">
+                    <img src="<?= sanitize($product['image']) ?>" alt="<?= sanitize($product['name']) ?>" class="product-detail-img">
+                </div>
+                
+                <div id="productMediaVideo" class="media-tab-content" style="display: none;">
+                    <div class="product-detail-video-container">
+                        <video id="detailProductVideo" controls loop playsinline poster="<?= sanitize($product['image']) ?>" class="product-detail-video">
+                            <source src="assets/videos/hero-banner-video.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="product-video-badge">
+                            <i class="fas fa-leaf"></i> <?= sanitize($product['name']) ?> Preparation & Benefits
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Media Selector Switcher -->
+                <div class="product-media-tabs">
+                    <button type="button" class="media-tab-btn active" onclick="switchProductMedia('image', this)">
+                        <i class="fas fa-box-open"></i> Product Box
+                    </button>
+                    <button type="button" class="media-tab-btn video-btn-highlight" onclick="switchProductMedia('video', this)">
+                        <i class="fas fa-play-circle"></i> Watch Product Video
+                    </button>
+                </div>
             </div>
 
             <!-- Right Column: Product Info & Actions -->
@@ -86,9 +110,32 @@ if (empty($related_products)) {
                     <?= sanitize($product['description']) ?>
                 </p>
 
+                <?php if ($product['id'] == 1 || $product['id'] == 10 || strpos(strtolower($product['name']), 'multigrain') !== false): ?>
+                <!-- Pack Size Quantity Variant Selector -->
+                <div class="pack-size-selector-box" style="margin-bottom: 22px;">
+                    <label style="display: block; font-weight: 800; font-size: 0.95rem; color: #1b4332; margin-bottom: 10px;">
+                        <i class="fas fa-weight-hanging" style="color:#008744; margin-right: 6px;"></i> Select Pack Size / Quantity:
+                    </label>
+                    <div class="variant-pills-grid" style="display: flex; gap: 14px; flex-wrap: wrap;">
+                        <button type="button" class="variant-pill <?= ($product['weight'] == '400g' || $product['id'] == 1) ? 'active' : '' ?>" 
+                                onclick="selectPackVariant('400g', 299.00, 'assets/images/products/multigrain-health-mix-400g.png', this)">
+                            <div class="v-pill-weight">400g Pack</div>
+                            <div class="v-pill-price">₹299.00</div>
+                            <span class="v-pill-badge">Standard</span>
+                        </button>
+                        <button type="button" class="variant-pill <?= ($product['weight'] == '800g' || $product['id'] == 10) ? 'active' : '' ?>" 
+                                onclick="selectPackVariant('800g', 549.00, 'assets/images/products/multigrain-health-mix-800g.png', this)">
+                            <div class="v-pill-weight">800g Family Pack</div>
+                            <div class="v-pill-price">₹549.00 <small style="color:#2e7d32; font-size:0.75rem; font-weight:800;">(Save ₹49)</small></div>
+                            <span class="v-pill-badge v-best-val">Best Value</span>
+                        </button>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <!-- Highlights Box -->
                 <div class="product-highlights-box">
-                    <p><strong>Net Weight:</strong> <?= sanitize($product['weight']) ?></p>
+                    <p><strong>Net Weight:</strong> <span id="displayWeightVal"><?= sanitize($product['weight']) ?></span></p>
                     <p><strong>Availability:</strong> <span class="stock-status-in">In Stock (<?= $product['stock'] ?> units)</span></p>
                     <p><strong>Formulation:</strong> 100% Natural, No Added Colors or Preservatives</p>
                 </div>
@@ -97,6 +144,8 @@ if (empty($related_products)) {
                 <form action="cart.php" method="POST" class="product-detail-cart-form">
                     <input type="hidden" name="action" value="add">
                     <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                    <input type="hidden" name="selected_weight" id="selectedWeightInput" value="<?= sanitize($product['weight']) ?>">
+                    <input type="hidden" name="selected_price" id="selectedPriceInput" value="<?= sanitize($product['price']) ?>">
 
                     <div class="detail-qty-control">
                         <button type="button" class="detail-qty-btn" onclick="updateQty(this, -1)">-</button>
@@ -147,7 +196,7 @@ if (empty($related_products)) {
                                 <h3 class="product-title">
                                     <a href="product.php?id=<?= $rel['id'] ?>"><?= sanitize($rel['name']) ?></a>
                                 </h3>
-                                <span class="ref-star-rating"><i class="fas fa-star" style="color:#d48800;"></i> 4.5</span>
+                                <span class="ref-star-rating"><i class="fas fa-star" style="color:#5CB832;"></i> 4.5</span>
                             </div>
 
                             <div class="ref-category-sub"><?= sanitize($rel['category_name'] ?? 'RM SAMPOORNA') ?></div>
@@ -186,5 +235,60 @@ if (empty($related_products)) {
         </div>
     </div>
 </div>
+
+<script>
+function selectPackVariant(weight, price, imageSrc, btn) {
+    document.querySelectorAll('.variant-pill').forEach(p => p.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    
+    // Update main stage image
+    const mainImg = document.querySelector('#productMediaImage img');
+    if (mainImg) {
+        mainImg.src = imageSrc;
+    }
+    
+    // Update price display
+    const priceDisplay = document.querySelector('.detail-main-price');
+    if (priceDisplay) {
+        priceDisplay.textContent = '₹' + parseFloat(price).toFixed(2);
+    }
+    
+    // Update net weight text
+    const weightDisplay = document.getElementById('displayWeightVal');
+    if (weightDisplay) {
+        weightDisplay.textContent = weight;
+    }
+    
+    // Update hidden form inputs
+    const weightInput = document.getElementById('selectedWeightInput');
+    const priceInput = document.getElementById('selectedPriceInput');
+    if (weightInput) weightInput.value = weight;
+    if (priceInput) priceInput.value = price;
+}
+
+function switchProductMedia(type, btn) {
+    const imgTab = document.getElementById('productMediaImage');
+    const videoTab = document.getElementById('productMediaVideo');
+    const videoElem = document.getElementById('detailProductVideo');
+    
+    document.querySelectorAll('.media-tab-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    
+    if (type === 'video') {
+        if (imgTab) imgTab.style.display = 'none';
+        if (videoTab) videoTab.style.display = 'block';
+        if (videoElem) {
+            videoElem.currentTime = 0;
+            videoElem.play();
+        }
+    } else {
+        if (videoTab) videoTab.style.display = 'none';
+        if (imgTab) imgTab.style.display = 'block';
+        if (videoElem) {
+            videoElem.pause();
+        }
+    }
+}
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 300" width="920" height="300">
+  <defs>
+    <style>
+      .title-text {
+        font-family: 'Arial Black', 'Montserrat', 'Segoe UI Bold', 'Helvetica Neue', sans-serif;
+        font-weight: 900;
+        font-size: 106px;
+        fill: #6E3411;
+        letter-spacing: 1px;
+      }
+      .tagline-text {
+        font-family: 'Arial Black', 'Montserrat', 'Segoe UI Bold', sans-serif;
+        font-weight: 900;
+        font-size: 34px;
+        fill: #0D5728;
+        letter-spacing: 2px;
+      }
+    </style>
+  </defs>
+
+  <!-- 3 Leaf Icon positioned above 'MA' -->
+  <g transform="translate(545, 12)">
+    <!-- Left Leaf -->
+    <path d="M 50 85 C 10 70 -10 30 5 5 C 35 15 60 45 50 85 Z" fill="#62BC37" />
+    <path d="M 45 80 Q 20 45 8 10" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" />
+
+    <!-- Center Leaf -->
+    <path d="M 54 85 C 40 40 48 5 66 -12 C 84 5 92 40 78 85 Z" fill="#62BC37" />
+    <path d="M 66 82 L 66 -5" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" />
+
+    <!-- Right Leaf -->
+    <path d="M 82 85 C 122 70 142 30 127 5 C 97 15 72 45 82 85 Z" fill="#62BC37" />
+    <path d="M 87 80 Q 112 45 124 10" stroke="#FFFFFF" stroke-width="3" fill="none" stroke-linecap="round" />
+  </g>
+
+  <!-- Main Text: RITHAMAYA -->
+  <text x="25" y="185" class="title-text">RITHAMAYA</text>
+
+  <!-- Green Wave Swoop under 'RITHA' -->
+  <path d="M 25 200 Q 55 218 115 226 C 185 235 255 230 320 208 C 335 203 345 198 355 198 C 340 210 318 220 290 228 C 220 248 140 248 75 228 Q 42 218 25 200 Z" fill="#62BC37" />
+
+  <!-- Tagline: FROM SOIL TO SOUL -->
+  <text x="355" y="240" class="tagline-text">FROM SOIL TO SOUL</text>
+</svg>

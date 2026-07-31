@@ -48,6 +48,7 @@ if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = isset($_POST['action']) ? sanitize($_POST['action']) : '';
     $product_id = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
+    $cart_key_input = !empty($_POST['cart_key']) ? sanitize($_POST['cart_key']) : (!empty($_POST['product_id']) ? sanitize($_POST['product_id']) : '');
     $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 1;
 
     // Fetch product details
@@ -73,30 +74,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($action === 'add' && $target_product) {
-        if (isset($_SESSION['cart'][$product_id]) && is_array($_SESSION['cart'][$product_id])) {
-            $_SESSION['cart'][$product_id]['quantity'] += $quantity;
+        $sel_weight = !empty($_POST['selected_weight']) ? sanitize($_POST['selected_weight']) : ($target_product['weight'] ?? '400g');
+        $sel_price = !empty($_POST['selected_price']) ? (float)$_POST['selected_price'] : (float)$target_product['price'];
+        
+        $item_img = ($sel_weight === '800g') ? 'assets/images/products/multigrain-health-mix-800g.png' : $target_product['image'];
+        $item_name = $target_product['name'];
+        if ($sel_weight === '800g' && strpos($item_name, '800g') === false) {
+            $item_name .= " ({$sel_weight} Family Pack)";
+        } elseif ($sel_weight === '400g' && strpos($item_name, '400g') === false) {
+            $item_name .= " ({$sel_weight} Pack)";
+        }
+
+        $cart_key = $product_id . '_' . strtolower($sel_weight);
+
+        if (isset($_SESSION['cart'][$cart_key]) && is_array($_SESSION['cart'][$cart_key])) {
+            $_SESSION['cart'][$cart_key]['quantity'] += $quantity;
         } else {
-            $_SESSION['cart'][$product_id] = [
+            $_SESSION['cart'][$cart_key] = [
                 'id' => $target_product['id'],
-                'name' => $target_product['name'],
-                'price' => $target_product['price'],
-                'weight' => $target_product['weight'] ?? '500g',
-                'image' => $target_product['image'],
+                'name' => $item_name,
+                'price' => $sel_price,
+                'weight' => $sel_weight,
+                'image' => $item_img,
                 'quantity' => $quantity
             ];
         }
-        $_SESSION['success_msg'] = "Added <strong>" . sanitize($target_product['name']) . "</strong> to your cart.";
+        $_SESSION['success_msg'] = "Added <strong>" . sanitize($item_name) . "</strong> to your cart.";
     } elseif ($action === 'update') {
-        if (isset($_SESSION['cart'][$product_id])) {
+        if (isset($_SESSION['cart'][$cart_key_input])) {
             if ($quantity > 0) {
-                if (is_array($_SESSION['cart'][$product_id])) {
-                    $_SESSION['cart'][$product_id]['quantity'] = $quantity;
-                } else {
-                    $_SESSION['cart'][$product_id] = [
-                        'id' => $product_id,
-                        'quantity' => $quantity
-                    ];
-                }
+                $_SESSION['cart'][$cart_key_input]['quantity'] = $quantity;
+                $_SESSION['success_msg'] = "Cart updated successfully.";
+            } else {
+                unset($_SESSION['cart'][$cart_key_input]);
+                $_SESSION['success_msg'] = "Item removed from cart.";
+            }
+        } elseif (isset($_SESSION['cart'][$product_id])) {
+            if ($quantity > 0) {
+                $_SESSION['cart'][$product_id]['quantity'] = $quantity;
                 $_SESSION['success_msg'] = "Cart updated successfully.";
             } else {
                 unset($_SESSION['cart'][$product_id]);
@@ -104,7 +119,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     } elseif ($action === 'remove') {
-        if (isset($_SESSION['cart'][$product_id])) {
+        if (isset($_SESSION['cart'][$cart_key_input])) {
+            unset($_SESSION['cart'][$cart_key_input]);
+            $_SESSION['success_msg'] = "Item removed from cart.";
+        } elseif (isset($_SESSION['cart'][$product_id])) {
             unset($_SESSION['cart'][$product_id]);
             $_SESSION['success_msg'] = "Item removed from cart.";
         }
@@ -180,7 +198,7 @@ $free_shipping_pct = min(100, ($subtotal / $free_shipping_thresh) * 100);
                 </div>
 
                 <div style="display: flex; flex-direction: column; gap: 16px;">
-                    <?php foreach ($cart_items as $item): 
+                    <?php foreach ($cart_items as $ckey => $item): 
                         if (!is_array($item)) continue;
                         $item_total = (float)($item['price'] ?? 0) * (int)($item['quantity'] ?? 1);
                     ?>
@@ -204,6 +222,7 @@ $free_shipping_pct = min(100, ($subtotal / $free_shipping_thresh) * 100);
                             <div style="flex: 0.8; text-align: center;">
                                 <form action="cart.php" method="POST" style="display: inline-block;">
                                     <input type="hidden" name="action" value="update">
+                                    <input type="hidden" name="cart_key" value="<?= sanitize($ckey) ?>">
                                     <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
                                     <div class="qty-control" style="background: #f8f9fa; border-radius: 20px; padding: 2px 8px;">
                                         <button type="button" class="qty-btn" onclick="updateQty(this, -1); this.form.submit();">-</button>
@@ -221,6 +240,7 @@ $free_shipping_pct = min(100, ($subtotal / $free_shipping_thresh) * 100);
 
                                 <form action="cart.php" method="POST" style="display: inline;">
                                     <input type="hidden" name="action" value="remove">
+                                    <input type="hidden" name="cart_key" value="<?= sanitize($ckey) ?>">
                                     <input type="hidden" name="product_id" value="<?= $item['id'] ?>">
                                     <button type="submit" style="background: #fff0f0; border: none; color: #e76f51; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition);" title="Remove Item">
                                         <i class="fas fa-trash-alt"></i>

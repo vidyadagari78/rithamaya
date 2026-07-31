@@ -46,7 +46,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <div class="header-wrapper">
                 <!-- Brand Logo -->
                 <a href="index.php" class="logo">
-                    <img src="assets/images/logo.png" alt="RM Sampoorna Logo" class="brand-logo-img">
+                    <img src="assets/images/logo.png" alt="Rithamaya Logo" class="brand-logo-img">
                 </a>
 
                 <!-- Navigation Links -->

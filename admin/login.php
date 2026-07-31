@@ -49,11 +49,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #112a1f, #1b4332); padding: 20px;">
+<div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #703816 0%, #0D5728 100%); padding: 20px;">
     <div style="max-width: 420px; width: 100%; background: #fff; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); text-align: center;">
-        <img src="../assets/images/logo.png" alt="RM Sampoorna Logo" style="height: 60px; margin-bottom: 16px;">
+        <img src="../assets/images/logo.png" alt="Rithamaya Logo" style="height: 60px; max-width: 220px; object-fit: contain; margin-bottom: 16px;">
         <h2 style="font-size: 1.6rem; color: var(--primary-color); margin-bottom: 6px;">Admin Panel Login</h2>
-        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 26px;">Authorized staff portal for RM's Sampoorna</p>
+        <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 26px;">Authorized staff portal for Rithamaya</p>
 
         <?php if (!empty($error)): ?>
             <div class="alert alert-danger" style="font-size: 0.88rem;"><?= $error ?></div>

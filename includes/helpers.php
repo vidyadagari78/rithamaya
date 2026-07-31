@@ -1,5 +1,5 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) {
+if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
     session_start();
 }
 
@@ -65,28 +65,51 @@ function get_mock_products() {
             'id' => 1,
             'category_id' => 1,
             'category_name' => 'Health Mixes',
-            'name' => '35+ Multigrain Health Mix Powder',
-            'slug' => '35-multigrain-health-mix-powder',
-            'short_description' => '35+ natural grains, millets, nuts, and natural herbs for daily family nourishment.',
-            'description' => 'RM Sampoorna 35+ Multigrain Health Mix is expertly crafted using 35 nutrient-rich natural ingredients including finger millet (ragi), bajra, jowar, almonds, walnuts, green gram, cardamom, and lotus seeds. Free from preservatives, artificial flavors, and added sugars.',
-            'price' => 349.00,
-            'weight' => '500g',
+            'name' => 'RITHAMAYA 35+ Multi Grain Health Mix Powder',
+            'slug' => 'rithamaya-35-multigrain-health-mix-powder',
+            'short_description' => '35+ natural grains, millets, nuts, and seeds. Rich in Calcium, Energy Booster & Immunity Support.',
+            'description' => 'Rithamaya 35+ Multi Grain Health Mix Powder is 100% natural, crafted with 6 types of millets, finger millet (ragi), jowar, red rice, almonds, walnuts, cashews, raisins, pumpkin seeds, cardamom, and natural herbs. NO Preservatives, NO Added Colours, NO Added Sugar. Rich in Calcium, Energy Booster, and Immunity Support from Soil to Soul.',
+            'price' => 299.00,
+            'weight' => '400g',
             'badge' => 'Bestseller',
             'stock' => 120,
-            'image' => 'assets/images/products/multigrain-health-mix.png',
-            'is_featured' => 1
+            'image' => 'assets/images/products/multigrain-health-mix-400g.png',
+            'is_featured' => 1,
+            'variants' => [
+                ['weight' => '400g', 'price' => 299.00, 'image' => 'assets/images/products/multigrain-health-mix-400g.png', 'label' => '400g Standard Pack'],
+                ['weight' => '800g', 'price' => 549.00, 'image' => 'assets/images/products/multigrain-health-mix-800g.png', 'label' => '800g Family Pack (Save ₹49)']
+            ]
+        ],
+        [
+            'id' => 10,
+            'category_id' => 1,
+            'category_name' => 'Health Mixes',
+            'name' => 'RITHAMAYA 35+ Multi Grain Health Mix Powder (800g Pack)',
+            'slug' => 'rithamaya-35-multigrain-health-mix-powder-800g',
+            'short_description' => '800g Family Savings Pack. 35+ natural grains, millets, nuts, and seeds.',
+            'description' => 'Rithamaya 35+ Multi Grain Health Mix Powder 800g Family Savings Pack is 100% natural, crafted with 6 types of millets, finger millet (ragi), jowar, red rice, almonds, walnuts, cashews, raisins, pumpkin seeds, cardamom, and natural herbs. NO Preservatives, NO Added Colours, NO Added Sugar.',
+            'price' => 549.00,
+            'weight' => '800g',
+            'badge' => 'Family Pack',
+            'stock' => 90,
+            'image' => 'assets/images/products/multigrain-health-mix-800g.png',
+            'is_featured' => 1,
+            'variants' => [
+                ['weight' => '400g', 'price' => 299.00, 'image' => 'assets/images/products/multigrain-health-mix-400g.png', 'label' => '400g Standard Pack'],
+                ['weight' => '800g', 'price' => 549.00, 'image' => 'assets/images/products/multigrain-health-mix-800g.png', 'label' => '800g Family Pack (Save ₹49)']
+            ]
         ],
         [
             'id' => 2,
             'category_id' => 3,
             'category_name' => 'Baby Food',
-            'name' => 'Baby Ragi Sari Powder',
-            'slug' => 'baby-ragi-sari-powder',
-            'short_description' => 'Traditional sprouted ragi baby cereal for healthy digestion and bone growth.',
-            'description' => 'Handcrafted sprouted Ragi Sari specially prepared for infants and toddler nutrition. Rich in natural calcium, iron, and dietary fiber, promoting easy digestion and natural weight gain.',
+            'name' => 'RITHAMAYA Baby Ragi Sari Powder (6 to 36 Months)',
+            'slug' => 'rithamaya-baby-ragi-sari-powder',
+            'short_description' => 'Gentle 100% natural sprouted ragi baby cereal for 6 to 36 months. Rich in Calcium & Immunity Support.',
+            'description' => 'Rithamaya Baby Ragi Sari Powder is handcrafted specially for infants and toddlers aged 6 Months to 36 Months. Formulated with sprouted Ragi (Finger Millet), Wheat, Red Rice, Almonds, Cashews, Walnuts, Pistachios, Green Gram, Moong Dal, Fenugreek, and Spices. NO Preservatives, NO Added Colours, NO Added Sugar. Rich in Calcium, Energy Booster, and Immunity Support.',
             'price' => 249.00,
             'weight' => '500g',
-            'badge' => 'Organic',
+            'badge' => '6-36 Months',
             'stock' => 85,
             'image' => 'assets/images/products/baby-ragi-sari.png',
             'is_featured' => 1

@@ -23,16 +23,16 @@ if ($admin_page !== 'login.php') {
     <link rel="stylesheet" href="../assets/css/style.css">
     <style>
         .admin-wrapper { display: flex; min-height: 100vh; }
-        .admin-sidebar { width: 260px; background: #112a1f; color: #d8f3dc; padding: 24px 0; flex-shrink: 0; }
-        .admin-brand { padding: 0 24px 24px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; gap: 12px; }
-        .admin-brand img { height: 42px; background: #fff; padding: 4px 8px; border-radius: 8px; }
-        .admin-nav { list-style: none; padding: 20px 0; }
-        .admin-nav li a { display: flex; align-items: center; gap: 12px; padding: 14px 24px; color: #b7e4c7; font-weight: 600; font-size: 0.95rem; transition: all 0.3s; }
-        .admin-nav li a:hover, .admin-nav li a.active { background: rgba(212, 163, 115, 0.2); color: #fff; border-left: 4px solid var(--secondary-color); }
-        .admin-content { flex-grow: 1; padding: 30px; background: #fdfbf7; overflow-x: auto; }
-        .admin-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: #fff; padding: 20px 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
-        .stat-card { background: #fff; padding: 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 20px; }
-        .stat-icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+        .admin-sidebar { width: 230px; background: linear-gradient(180deg, #703816 0%, #0D5728 100%); color: #f4ebe0; padding: 24px 0; flex-shrink: 0; }
+        .admin-brand { padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; gap: 10px; }
+        .admin-brand img { height: 38px; background: #fff; padding: 4px 8px; border-radius: 8px; }
+        .admin-nav { list-style: none; padding: 16px 0; }
+        .admin-nav li a { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: #e4d8ca; font-weight: 600; font-size: 0.92rem; transition: all 0.3s; }
+        .admin-nav li a:hover, .admin-nav li a.active { background: rgba(92, 184, 50, 0.22); color: #fff; border-left: 4px solid #5CB832; }
+        .admin-content { flex-grow: 1; padding: 24px; background: #faf6f0; overflow-x: auto; width: calc(100% - 230px); }
+        .admin-header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; background: #fff; padding: 16px 24px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); }
+        .stat-card { background: #fff; padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--border-color); display: flex; align-items: center; gap: 16px; }
+        .stat-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
     </style>
 </head>
 <body>
@@ -42,10 +42,10 @@ if ($admin_page !== 'login.php') {
     <!-- Admin Sidebar -->
     <aside class="admin-sidebar">
         <div class="admin-brand">
-            <img src="../assets/images/logo.png" alt="RM Sampoorna Logo">
+            <img src="../assets/images/logo.png" alt="Rithamaya Logo" style="background: #ffffff; padding: 4px 8px; border-radius: 6px;">
             <div>
                 <h4 style="color:#fff; font-size: 1rem;">Admin Panel</h4>
-                <span style="font-size: 0.75rem; color: var(--secondary-color);">RM Sampoorna</span>
+                <span style="font-size: 0.75rem; color: var(--secondary-color);">Rithamaya</span>
             </div>
         </div>
 

@@ -4,7 +4,7 @@
             <div class="footer-grid">
                 <!-- Col 1: Brand Info -->
                 <div class="footer-col">
-                    <img src="assets/images/logo.png" alt="RM Sampoorna Logo" style="height: 52px; width: auto; background: #fff; padding: 4px 10px; border-radius: 8px; margin-bottom: 14px;">
+                    <img src="assets/images/logo.png" alt="Rithamaya Logo" style="height: 54px; width: auto; background: #ffffff; padding: 6px 14px; border-radius: 8px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
                     <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 20px; color: #b7e4c7;">
                         Dedicated to bringing pure, traditional, and 100% organic homemade nutrition to every household. Handcrafted with love and authentic ingredients.
                     </p>
@@ -66,7 +66,7 @@
             <div class="promo-banner-content">
                 <!-- Header Logo & Tagline -->
                 <div class="promo-header">
-                    <img src="assets/images/logo.png" alt="RM's Sampoorna Logo" class="promo-logo">
+                    <img src="assets/images/logo.png" alt="Rithamaya Logo" class="promo-logo">
                     <div class="promo-subtag">TRADITION • TRUST • TASTE</div>
                 </div>
 
