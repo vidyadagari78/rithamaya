@@ -3242,114 +3242,151 @@ img {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   EXTRA-SMALL PHONES (< 520px) — 2-col product grid
+   EXTRA-SMALL PHONES (< 520px) — Compact Strip Product Cards
    ───────────────────────────────────────────────────────────── */
 @media (max-width: 520px) {
   .categories-home-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    gap: 8px !important;
   }
 
-  /* 2 compact columns for product grid */
+  /* 2 compact strip columns */
   .product-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    gap: 8px !important;
   }
 
+  /* ── Compact strip card ── */
   .product-card {
-    padding: 10px !important;
-    border-radius: 14px !important;
+    padding: 8px !important;
+    border-radius: 12px !important;
   }
 
+  /* ── Smaller image stage ── */
   .product-img-wrapper {
-    height: 120px !important;
+    height: 90px !important;
+    padding: 6px !important;
+    margin-bottom: 8px !important;
   }
 
   .product-card-img-stage {
-    height: 120px !important;
+    height: 90px !important;
   }
 
-  /* ── Fix: product title doesn't wrap awkwardly ── */
-  .product-title {
-    font-size: 0.78rem !important;
-    line-height: 1.2 !important;
+  .product-img {
+    max-height: 80px !important;
+  }
+
+  /* ── Corner badge smaller ── */
+  .product-corner-badge {
+    font-size: 0.55rem !important;
+    padding: 2px 6px !important;
+    top: 6px !important;
+    right: 6px !important;
+  }
+
+  /* ── Title: compact, 2 lines max ── */
+  .ref-title-rating-row {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 3px !important;
+    align-items: flex-start !important;
     margin-bottom: 2px !important;
   }
 
-  /* ── Fix: title/rating row – rating badge drops below title ── */
-  .ref-title-rating-row {
-    flex-direction: column !important;
-    gap: 4px !important;
-    align-items: flex-start !important;
+  .product-title {
+    font-size: 0.72rem !important;
+    line-height: 1.15 !important;
+    margin-bottom: 1px !important;
+    flex: 1 1 100% !important;
   }
 
+  /* ── Star rating: small inline chip ── */
   .ref-star-rating {
-    font-size: 0.74rem !important;
-    padding: 1px 6px !important;
+    font-size: 0.65rem !important;
+    padding: 1px 5px !important;
+    flex-shrink: 0 !important;
   }
 
+  /* ── Category subtitle hidden on mobile strip ── */
   .ref-category-sub {
-    font-size: 0.74rem !important;
-    margin-bottom: 6px !important;
+    display: none !important;
   }
 
-  /* ── Fix: price row overflow – main price + strikethrough ── */
+  /* ── Price row: compact, no strikethrough overflow ── */
   .ref-price-discount-row {
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     align-items: baseline !important;
     gap: 2px !important;
+    margin-bottom: 2px !important;
   }
 
   .ref-main-price {
-    font-size: 1.05rem !important;
+    font-size: 0.92rem !important;
+    font-weight: 800 !important;
   }
 
   .ref-unit-text {
-    font-size: 0.74rem !important;
+    font-size: 0.65rem !important;
   }
 
+  /* ── Hide strikethrough price on mobile strip ── */
   .ref-original-price {
-    font-size: 0.74rem !important;
-    margin-left: 0 !important;
-    flex-basis: 100% !important; /* push to new line if needed */
+    display: none !important;
   }
 
+  /* ── Pack info: compact ── */
   .ref-pack-info {
-    font-size: 0.74rem !important;
-    margin-bottom: 8px !important;
+    font-size: 0.65rem !important;
+    margin-bottom: 6px !important;
+    color: #888 !important;
   }
 
-  /* ── Fix: qty pill compact ── */
+  /* ── Qty pill: slim ── */
   .ref-qty-pill {
-    padding: 4px 10px !important;
-    margin-bottom: 8px !important;
+    padding: 3px 8px !important;
+    margin-bottom: 6px !important;
+    border-radius: 20px !important;
   }
 
-  /* ── Fix: action buttons stacked full-width ── */
+  .ref-qty-btn {
+    font-size: 1rem !important;
+  }
+
+  .ref-qty-val {
+    font-size: 0.8rem !important;
+  }
+
+  /* ── Action buttons: only Add to Cart, full width ── */
   .ref-actions-row {
     flex-direction: column !important;
-    gap: 5px !important;
+    gap: 4px !important;
   }
 
-  .ref-cart-green-btn,
-  .ref-bulk-inquiry-btn {
+  .ref-cart-green-btn {
     width: 100% !important;
-    font-size: 0.76rem !important;
-    padding: 9px 4px !important;
+    font-size: 0.7rem !important;
+    padding: 8px 4px !important;
     flex: unset !important;
+    border-radius: 8px !important;
+  }
+
+  /* ── Hide "View Details" on compact strip (saves height) ── */
+  .ref-bulk-inquiry-btn {
+    display: none !important;
   }
 
   /* testimonials single column */
   .unique-testimonial-grid {
     grid-template-columns: 1fr !important;
-    gap: 14px !important;
+    gap: 12px !important;
   }
 
   /* cart item card stacks image + details vertically */
   div[style*="display: flex; align-items: center; justify-content: space-between; gap: 20px"] {
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 12px !important;
+    gap: 10px !important;
   }
 }
 
