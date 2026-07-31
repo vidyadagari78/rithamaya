@@ -82,13 +82,74 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <span class="badge-count"><?= $cart_count ?></span>
                     </a>
 
-                    <div class="mobile-toggle">
-                        <i class="fas fa-bars"></i>
-                    </div>
+                    <button class="mobile-toggle" id="mobileToggleBtn" aria-label="Toggle navigation" aria-expanded="false">
+                        <i class="fas fa-bars" id="mobileToggleIcon"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
+    <nav class="mobile-nav-drawer" id="mobileNavDrawer">
+        <div class="mobile-nav-header">
+            <img src="assets/images/logo.png" alt="Rithamaya" style="height:40px; width:auto;">
+            <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <ul class="mobile-nav-links">
+            <li><a href="index.php" onclick="closeMobileNav()"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="shop.php" onclick="closeMobileNav()"><i class="fas fa-store"></i> Shop Products</a></li>
+            <li><a href="about.php" onclick="closeMobileNav()"><i class="fas fa-leaf"></i> About Us</a></li>
+            <li><a href="contact.php" onclick="closeMobileNav()"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        </ul>
+        <div class="mobile-nav-footer">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="account.php" class="mobile-nav-action-btn" onclick="closeMobileNav()">
+                    <i class="fas fa-user-check"></i> My Account
+                </a>
+                <a href="logout.php" class="mobile-nav-action-btn" onclick="closeMobileNav()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            <?php else: ?>
+                <a href="login.php" class="mobile-nav-action-btn" onclick="closeMobileNav()">
+                    <i class="fas fa-user"></i> Login / Register
+                </a>
+            <?php endif; ?>
+            <a href="cart.php" class="mobile-nav-action-btn mobile-cart-btn" onclick="closeMobileNav()">
+                <i class="fas fa-shopping-basket"></i> Cart
+                <?php if ($cart_count > 0): ?>
+                    <span class="mobile-cart-badge"><?= $cart_count ?></span>
+                <?php endif; ?>
+            </a>
+        </div>
+    </nav>
+
+    <script>
+    function openMobileNav() {
+        document.getElementById('mobileNavDrawer').classList.add('open');
+        document.getElementById('mobileNavOverlay').classList.add('open');
+        document.getElementById('mobileToggleIcon').className = 'fas fa-times';
+        document.getElementById('mobileToggleBtn').setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeMobileNav() {
+        document.getElementById('mobileNavDrawer').classList.remove('open');
+        document.getElementById('mobileNavOverlay').classList.remove('open');
+        document.getElementById('mobileToggleIcon').className = 'fas fa-bars';
+        document.getElementById('mobileToggleBtn').setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+    }
+    document.getElementById('mobileToggleBtn').addEventListener('click', function() {
+        if (document.getElementById('mobileNavDrawer').classList.contains('open')) {
+            closeMobileNav();
+        } else {
+            openMobileNav();
+        }
+    });
+    </script>
 
     <!-- Flash Message Container -->
     <?php if (isset($_SESSION['success_msg']) || isset($_SESSION['error_msg'])): ?>
