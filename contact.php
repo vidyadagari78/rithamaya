@@ -35,12 +35,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!-- Contact Page Hero Banner (Signature Theme Banner) -->
-<div class="page-banner">
-    <div class="container">
-        <span style="color: var(--secondary-color); font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 1.5px;">GET IN TOUCH</span>
-        <h1 style="font-size: 2.5rem; font-weight: 900; margin-top: 6px;">Contact Us & Support</h1>
-        <p>Have questions about our organic products or custom order inquiries? We'd love to hear from you!</p>
+<!-- Contact Page Hero Banner (With Rich Background Image & Badges) -->
+<div class="shop-hero-banner" style="background: linear-gradient(rgba(14, 35, 26, 0.78), rgba(14, 35, 26, 0.85)), url('assets/images/shop_banner_bg.png') center/cover no-repeat; padding: 50px 0; margin-bottom: 50px;">
+    <div class="container shop-banner-content" style="text-align: center; color: #fff;">
+        <span style="color: #5CB832; font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 6px;">GET IN TOUCH</span>
+        <h1 class="shop-banner-title" style="font-size: 2.6rem; font-weight: 900; color: #fff; margin-bottom: 8px;">Contact Us & Support</h1>
+        <p class="shop-banner-subtitle" style="color: #d8f3dc; font-size: 1.05rem; max-width: 650px; margin: 0 auto 24px;">Have questions about our organic products or custom order inquiries? We'd love to hear from you!</p>
+        
+        <!-- Floating Feature Badges Row -->
+        <div class="shop-banner-badges">
+            <div class="banner-badge-item">
+                <i class="fas fa-leaf"></i> <span>100% ORGANIC</span>
+            </div>
+            <div class="banner-badge-item">
+                <i class="fas fa-house-chimney"></i> <span>HOME MADE</span>
+            </div>
+            <div class="banner-badge-item">
+                <i class="fas fa-ban"></i> <span>NO PRESERVATIVES</span>
+            </div>
+            <div class="banner-badge-item">
+                <i class="fas fa-truck-fast"></i> <span>FAST SHIPPING</span>
+            </div>
+        </div>
     </div>
 </div>
 
