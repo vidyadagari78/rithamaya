@@ -22,8 +22,9 @@
                         <li><a href="index.php">Home</a></li>
                         <li><a href="shop.php">Shop Products</a></li>
                         <li><a href="about.php">About RM Sampoorna</a></li>
+                        <li><a href="faq.php">Frequently Asked Questions (FAQ)</a></li>
+                        <li><a href="terms.php">Terms & Conditions</a></li>
                         <li><a href="contact.php">Contact & Support</a></li>
-                        <li><a href="cart.php">View Shopping Cart</a></li>
                     </ul>
                 </div>
 

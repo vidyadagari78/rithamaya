@@ -54,6 +54,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <li><a href="index.php" class="nav-link <?= $current_page == 'index.php' ? 'active' : '' ?>">Home</a></li>
                     <li><a href="shop.php" class="nav-link <?= $current_page == 'shop.php' ? 'active' : '' ?>">Shop Products</a></li>
                     <li><a href="about.php" class="nav-link <?= $current_page == 'about.php' ? 'active' : '' ?>">About Us</a></li>
+                    <li><a href="faq.php" class="nav-link <?= $current_page == 'faq.php' ? 'active' : '' ?>">FAQs</a></li>
                     <li><a href="contact.php" class="nav-link <?= $current_page == 'contact.php' ? 'active' : '' ?>">Contact Us</a></li>
                 </ul>
 
@@ -91,10 +92,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </header>
 
     <!-- Mobile Navigation Drawer -->
-    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()"></div>
-    <nav class="mobile-nav-drawer" id="mobileNavDrawer">
+    <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="closeMobileNav()" style="display: none;"></div>
+    <nav class="mobile-nav-drawer" id="mobileNavDrawer" style="display: none;">
         <div class="mobile-nav-header">
-            <img src="assets/images/logo.png" alt="Rithamaya" style="height:40px; width:auto;">
+            <img src="assets/images/logo.png" alt="Rithamaya" style="height:40px; width:auto; background: #fff; padding: 4px 8px; border-radius: 6px;">
             <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">
                 <i class="fas fa-times"></i>
             </button>
@@ -103,6 +104,8 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <li><a href="index.php" onclick="closeMobileNav()"><i class="fas fa-home"></i> Home</a></li>
             <li><a href="shop.php" onclick="closeMobileNav()"><i class="fas fa-store"></i> Shop Products</a></li>
             <li><a href="about.php" onclick="closeMobileNav()"><i class="fas fa-leaf"></i> About Us</a></li>
+            <li><a href="faq.php" onclick="closeMobileNav()"><i class="fas fa-question-circle"></i> FAQs</a></li>
+            <li><a href="terms.php" onclick="closeMobileNav()"><i class="fas fa-file-contract"></i> Terms & Conditions</a></li>
             <li><a href="contact.php" onclick="closeMobileNav()"><i class="fas fa-envelope"></i> Contact Us</a></li>
         </ul>
         <div class="mobile-nav-footer">
@@ -129,21 +132,34 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <script>
     function openMobileNav() {
-        document.getElementById('mobileNavDrawer').classList.add('open');
-        document.getElementById('mobileNavOverlay').classList.add('open');
+        const drawer = document.getElementById('mobileNavDrawer');
+        const overlay = document.getElementById('mobileNavOverlay');
+        drawer.style.display = 'flex';
+        overlay.style.display = 'block';
+        setTimeout(function() {
+            drawer.classList.add('open');
+            overlay.classList.add('open');
+        }, 10);
         document.getElementById('mobileToggleIcon').className = 'fas fa-times';
         document.getElementById('mobileToggleBtn').setAttribute('aria-expanded', 'true');
         document.body.style.overflow = 'hidden';
     }
     function closeMobileNav() {
-        document.getElementById('mobileNavDrawer').classList.remove('open');
-        document.getElementById('mobileNavOverlay').classList.remove('open');
+        const drawer = document.getElementById('mobileNavDrawer');
+        const overlay = document.getElementById('mobileNavOverlay');
+        drawer.classList.remove('open');
+        overlay.classList.remove('open');
+        setTimeout(function() {
+            drawer.style.display = 'none';
+            overlay.style.display = 'none';
+        }, 300);
         document.getElementById('mobileToggleIcon').className = 'fas fa-bars';
         document.getElementById('mobileToggleBtn').setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
     }
     document.getElementById('mobileToggleBtn').addEventListener('click', function() {
-        if (document.getElementById('mobileNavDrawer').classList.contains('open')) {
+        const drawer = document.getElementById('mobileNavDrawer');
+        if (drawer.classList.contains('open') || drawer.style.display === 'flex') {
             closeMobileNav();
         } else {
             openMobileNav();
