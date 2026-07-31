@@ -19,8 +19,8 @@ if ($admin_page !== 'login.php') {
     <title>RM Sampoorna - Admin Control Panel</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Main Style CSS -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <!-- Main Style CSS (with Cache Busting) -->
+    <link rel="stylesheet" href="<?= asset_url('../assets/css/style.css') ?>">
     <style>
         .admin-wrapper { display: flex; min-height: 100vh; }
         .admin-sidebar { width: 230px; background: linear-gradient(180deg, #703816 0%, #0D5728 100%); color: #f4ebe0; padding: 24px 0; flex-shrink: 0; }
@@ -67,7 +67,8 @@ if ($admin_page !== 'login.php') {
             <li><a href="products.php" class="<?= $admin_page == 'products.php' ? 'active' : '' ?>"><i class="fas fa-boxes-stacked"></i> Products</a></li>
             <li><a href="orders.php" class="<?= $admin_page == 'orders.php' ? 'active' : '' ?>"><i class="fas fa-shopping-cart"></i> Customer Orders</a></li>
             <li><a href="messages.php" class="<?= $admin_page == 'messages.php' ? 'active' : '' ?>"><i class="fas fa-envelope"></i> Contact Messages</a></li>
-            <li style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+            <li><a href="../clear_cache.php" style="color: #69f0ae;"><i class="fas fa-sync-alt"></i> Clear Site Cache</a></li>
+            <li style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
                 <a href="../index.php" target="_blank"><i class="fas fa-external-link-alt"></i> View Live Site</a>
             </li>
             <li><a href="logout.php" style="color: #ff8a80;"><i class="fas fa-sign-out-alt"></i> Admin Logout</a></li>
@@ -81,7 +82,8 @@ if ($admin_page !== 'login.php') {
                 <h2 style="font-size: 1.5rem; color: var(--primary-color);">Welcome, Admin Manager 👋</h2>
                 <span style="font-size: 0.85rem; color: var(--text-muted);"><?= date('l, F j, Y') ?></span>
             </div>
-            <div>
+            <div style="display:flex; gap:10px;">
+                <a href="../clear_cache.php" class="btn btn-outline" style="font-size: 0.85rem; padding: 8px 14px; background:#e8f5e9; color:#2e7d32; border-color:#a5d6a7;"><i class="fas fa-bolt"></i> Clear Cache</a>
                 <a href="../index.php" target="_blank" class="btn btn-outline" style="font-size: 0.85rem; padding: 8px 16px;"><i class="fas fa-globe"></i> Visit Store</a>
             </div>
         </div>

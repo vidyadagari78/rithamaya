@@ -13,10 +13,31 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <meta name="description" content="Pure organic masalas, health mixes, baby ragi sari, and homemade traditional spices. Shop RM's Sampoorna for fresh nutrition.">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Main Style CSS -->
-    <link rel="stylesheet" href="assets/css/style.css">
+    <!-- Main Style CSS (with Cache Busting) -->
+    <link rel="stylesheet" href="<?= asset_url('assets/css/style.css') ?>">
 </head>
 <body>
+
+    <!-- Cookie Enabled Detector & Cache Notification Banner -->
+    <div id="cookieWarningBanner" class="alert-banner warning" style="display: none; background: #fff3cd; color: #856404; padding: 10px 16px; text-align: center; border-bottom: 1px solid #ffeeba; font-size: 0.9rem;">
+        ⚠️ <strong>Cookies are disabled in your browser!</strong> Please enable cookies or turn off private browsing mode to ensure your cart and login work properly.
+    </div>
+
+    <?php if (isset($_SESSION['cache_cleared_msg'])): ?>
+        <div class="alert-banner success" style="background: #d4edda; color: #155724; padding: 10px 16px; text-align: center; border-bottom: 1px solid #c3e6cb; font-size: 0.9rem;">
+            ✅ <?= htmlspecialchars($_SESSION['cache_cleared_msg']) ?>
+        </div>
+        <?php unset($_SESSION['cache_cleared_msg']); ?>
+    <?php endif; ?>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!navigator.cookieEnabled) {
+                var banner = document.getElementById("cookieWarningBanner");
+                if (banner) banner.style.display = "block";
+            }
+        });
+    </script>
 
     <!-- Single Moving Announcement Ticker Bar -->
     <div class="top-ticker-bar">

@@ -25,6 +25,7 @@
                         <li><a href="faq.php">Frequently Asked Questions (FAQ)</a></li>
                         <li><a href="terms.php">Terms & Conditions</a></li>
                         <li><a href="contact.php">Contact & Support</a></li>
+                        <li><a href="clear_cache.php" style="color: #5CB832;" title="Clear website cache & reload latest assets"><i class="fas fa-sync-alt"></i> Clear Website Cache</a></li>
                     </ul>
                 </div>
 

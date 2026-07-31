@@ -1,6 +1,28 @@
 <?php
 if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+    ini_set('session.cookie_httponly', 1);
+    ini_set('session.use_only_cookies', 1);
     session_start();
+}
+
+// Asset Cache-Busting Helper for Website Speed
+function asset_url($path) {
+    $full_path = __DIR__ . '/../' . ltrim($path, '/');
+    if (file_exists($full_path)) {
+        $mtime = filemtime($full_path);
+        return $path . '?v=' . $mtime;
+    }
+    return $path;
+}
+
+// Clear Website Cache Helper
+function clear_website_cache() {
+    if (function_exists('opcache_reset')) {
+        @opcache_reset();
+    }
+    if (function_exists('gc_collect_cycles')) {
+        @gc_collect_cycles();
+    }
 }
 
 // Initialize cart if not set
