@@ -21,3 +21,10 @@ jobs:
         username: if0_42545219
         password: ${{ secrets.FTP_PASSWORD }}
         server-dir: htdocs/
+        protocol: ftp
+        port: 21
+        exclude: |
+          **/.git*
+          **/.git*/**
+          database.sql
+          README.md
