@@ -1,5 +1,9 @@
 <?php
-require_once __DIR__ . '/includes/admin_header.php';
+if (!ob_get_level()) {
+    ob_start();
+}
+require_once __DIR__ . '/../config/db.php';
+require_once __DIR__ . '/../includes/helpers.php';
 
 if (isset($_SESSION['admin_logged_in']) && $_SESSION['admin_logged_in'] === true) {
     header("Location: index.php");
@@ -13,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     if (!empty($email) && !empty($password)) {
-        if ($GLOBALS['db_connected']) {
+        if (!empty($GLOBALS['db_connected'])) {
             try {
                 $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND role = 'admin'");
                 $stmt->execute([$email]);
@@ -47,6 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Please enter admin email and password.";
     }
 }
+
+require_once __DIR__ . '/includes/admin_header.php';
 ?>
 
 <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #703816 0%, #0D5728 100%); padding: 20px;">

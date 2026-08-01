@@ -23,4 +23,3 @@ try {
     $GLOBALS['pdo'] = null;
     $db_error_message = $e->getMessage();
 }
-?>
