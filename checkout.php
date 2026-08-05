@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/helpers.php';
 
 $cart_items = $_SESSION['cart'] ?? [];
 if (empty($cart_items)) {
@@ -64,14 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 }
+
+require_once __DIR__ . '/includes/header.php';
 ?>
 
-<!-- Checkout Page Banner (Signature Theme Banner) -->
 <div class="page-banner">
     <div class="container">
-        <span style="color: var(--secondary-color); font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 1.5px;">FAST & SECURE CHECKOUT</span>
-        <h1 style="font-size: 2.5rem; font-weight: 900; margin-top: 6px;">Checkout & Delivery</h1>
-        <p>Enter your shipping address and payment preferences to complete your order.</p>
+        <h1>Checkout & Delivery</h1>
+        <p>Enter your delivery details to complete your order</p>
     </div>
 </div>
 
@@ -86,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     <?php endif; ?>
 
-    <form action="checkout.php" method="POST" style="display: grid; grid-template-columns: 2fr 1fr; gap: 40px;">
+    <form action="checkout.php" method="POST" class="checkout-grid">
         <!-- Customer Delivery Form -->
         <div style="background: #fff; padding: 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
             <h3 style="margin-bottom: 20px; font-size: 1.3rem;">1. Shipping Information</h3>
@@ -112,24 +113,116 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <textarea name="address" rows="4" class="form-control" required placeholder="House No, Street, Landmark, City, State, Pincode"></textarea>
             </div>
 
-            <h3 style="margin: 30px 0 20px; font-size: 1.3rem;">2. Payment Method</h3>
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <label style="display: flex; align-items: center; gap: 12px; padding: 14px 20px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer; background: #fdfbf7;">
-                    <input type="radio" name="payment_method" value="Cash on Delivery" checked>
-                    <div>
-                        <strong>Cash on Delivery (COD)</strong>
-                        <p style="font-size: 0.8rem; color: var(--text-muted);">Pay in cash upon doorstep delivery</p>
+            <style>
+                .payment-option {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 15px;
+                    padding: 16px 20px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    background: #fff;
+                    transition: all 0.2s ease;
+                }
+                .payment-option.active {
+                    border: 1px solid #1b4332;
+                    background: #f5f6f1;
+                }
+                .payment-option input[type="radio"] {
+                    margin-top: 4px;
+                    accent-color: #1b4332;
+                    transform: scale(1.2);
+                }
+                .payment-content strong {
+                    display: block;
+                    font-size: 1.05rem;
+                    color: #222;
+                    margin-bottom: 4px;
+                }
+                .payment-content p {
+                    font-size: 0.85rem;
+                    color: #666;
+                    margin: 0;
+                }
+                .payment-icons {
+                    display: flex;
+                    gap: 8px;
+                    margin-top: 10px;
+                    align-items: center;
+                }
+                .payment-icons i {
+                    font-size: 1.5rem;
+                }
+                .payment-icons .fa-google-pay { color: #4285f4; }
+                .payment-icons .fa-cc-visa { color: #1a1f71; }
+                .payment-icons .fa-cc-mastercard { color: #eb001b; }
+            </style>
+
+            <h3 style="margin: 30px 0 20px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px;">
+                <span style="background: #1b4332; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">2</span> 
+                Payment Method
+            </h3>
+            <div style="display: flex; flex-direction: column; gap: 12px;" id="payment-methods-container">
+                
+                <label class="payment-option active">
+                    <input type="radio" name="payment_method" value="UPI" checked onchange="updatePaymentUI()">
+                    <div class="payment-content">
+                        <strong>UPI (Google Pay, PhonePe, Paytm, BHIM)</strong>
+                        <p>Pay instantly using your favorite UPI app</p>
+                        <div class="payment-icons">
+                            <span style="color: #4285f4; font-weight: bold; font-size: 0.9rem;">GPay</span>
+                            <span style="color: #5e35b1; font-weight: bold; font-size: 0.9rem; margin-left: 8px;">PhonePe</span>
+                            <span style="color: #00baf2; font-weight: bold; font-size: 0.9rem; margin-left: 8px;">Paytm</span>
+                        </div>
                     </div>
                 </label>
 
-                <label style="display: flex; align-items: center; gap: 12px; padding: 14px 20px; border: 1px solid var(--border-color); border-radius: var(--radius-sm); cursor: pointer;">
-                    <input type="radio" name="payment_method" value="UPI / Online Payment">
-                    <div>
-                        <strong>UPI / GPay / PhonePe / Paytm</strong>
-                        <p style="font-size: 0.8rem; color: var(--text-muted);">Instant QR code or UPI payment</p>
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="Card" onchange="updatePaymentUI()">
+                    <div class="payment-content">
+                        <strong>Credit / Debit Card</strong>
+                        <p>Visa, MasterCard, RuPay, Maestro</p>
+                        <div class="payment-icons">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                        </div>
+                    </div>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="Net Banking" onchange="updatePaymentUI()">
+                    <div class="payment-content">
+                        <strong>Net Banking</strong>
+                        <p>All major Indian banks supported</p>
+                    </div>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="Wallets" onchange="updatePaymentUI()">
+                    <div class="payment-content">
+                        <strong>Wallets (Amazon Pay, MobiKwik, etc.)</strong>
+                    </div>
+                </label>
+
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="Cash on Delivery" onchange="updatePaymentUI()">
+                    <div class="payment-content">
+                        <strong>Cash on Delivery (COD)</strong>
+                        <p>Pay in cash when your order arrives</p>
                     </div>
                 </label>
             </div>
+
+            <script>
+                function updatePaymentUI() {
+                    document.querySelectorAll('.payment-option').forEach(el => el.classList.remove('active'));
+                    const selected = document.querySelector('input[name="payment_method"]:checked');
+                    if(selected) {
+                        selected.closest('.payment-option').classList.add('active');
+                    }
+                }
+            </script>
         </div>
 
         <!-- Order Summary Box -->
@@ -159,13 +252,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <span><?= $shipping == 0 ? '<span style="color:green; font-weight:600;">FREE</span>' : format_price($shipping) ?></span>
                 </div>
 
-                <div class="summary-row total">
-                    <span>Amount Payable</span>
+                <div class="summary-row total" style="color: var(--accent-color);">
+                    <span>Order Total:</span>
                     <span><?= format_price($grand_total) ?></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 24px;">
-                    <i class="fas fa-lock"></i> Place Order Now
+                    <i class="fas fa-lock"></i> Place Your Order
                 </button>
             </div>
         </div>

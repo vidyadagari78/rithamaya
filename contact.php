@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/includes/header.php';
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/includes/helpers.php';
 
 $success = false;
 $error = '';
@@ -33,50 +34,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Please fill in all required fields (Name, Email, Message).";
     }
 }
+
+require_once __DIR__ . '/includes/header.php';
 ?>
+<style>
+  .site-footer { margin-top: 0 !important; }
+</style>
 
-<!-- Contact Page Hero Banner (With Rich Background Image & Badges) -->
-<div class="shop-hero-banner" style="background: linear-gradient(rgba(14, 35, 26, 0.78), rgba(14, 35, 26, 0.85)), url('assets/images/shop_banner_bg.png') center/cover no-repeat; padding: 50px 0; margin-bottom: 50px;">
-    <div class="container shop-banner-content" style="text-align: center; color: #fff;">
-        <span style="color: #5CB832; font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 6px;">GET IN TOUCH</span>
-        <h1 class="shop-banner-title" style="font-size: 2.6rem; font-weight: 900; color: #fff; margin-bottom: 8px;">Contact Us & Support</h1>
-        <p class="shop-banner-subtitle" style="color: #d8f3dc; font-size: 1.05rem; max-width: 650px; margin: 0 auto 24px;">Have questions about our organic products or custom order inquiries? We'd love to hear from you!</p>
-        
-        <!-- Floating Feature Badges Row -->
-        <div class="shop-banner-badges">
-            <div class="banner-badge-item">
-                <i class="fas fa-leaf"></i> <span>100% ORGANIC</span>
-            </div>
-            <div class="banner-badge-item">
-                <i class="fas fa-house-chimney"></i> <span>HOME MADE</span>
-            </div>
-            <div class="banner-badge-item">
-                <i class="fas fa-ban"></i> <span>NO PRESERVATIVES</span>
-            </div>
-            <div class="banner-badge-item">
-                <i class="fas fa-truck-fast"></i> <span>FAST SHIPPING</span>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="organic-backdrop-section">
+    <div class="spice-wheat-backdrop"></div>
+    
+    <div class="container organic-backdrop-content" style="text-align: center; padding-top: 20px; padding-bottom: 20px;">
+        <h1 style="font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 15px; color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.6);">Contact Us & Get In Touch</h1>
+        <p style="font-size: clamp(1rem, 2vw, 1.15rem); color: #fff; text-shadow: 0 2px 15px rgba(0,0,0,0.6); margin-bottom: 50px;">Have questions about our organic products or custom order inquiries? We'd love to hear from you!</p>
+        <?php if (!empty($error)): ?>
+            <div class="alert alert-danger"><?= $error ?></div>
+        <?php endif; ?>
 
-<div class="container" style="margin-bottom: 80px;">
-    <?php if (!empty($error)): ?>
-        <div class="alert alert-danger"><?= $error ?></div>
-    <?php endif; ?>
-
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px;">
-        <!-- Contact Form -->
-        <div style="background: #fff; padding: 36px; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);">
+        <div class="contact-grid">
+            <!-- Contact Form -->
+            <div class="dark-card" style="max-width: 480px; margin: 0 auto; width: 100%; text-align: left;">
             <h2 style="font-size: 1.6rem; margin-bottom: 20px;">Send Us A Message</h2>
 
-            <form action="contact.php" method="POST">
+            <form action="contact.php" method="POST" style="flex: 1; display: flex; flex-direction: column;">
                 <div class="form-group">
                     <label class="form-label">Your Name *</label>
                     <input type="text" name="name" class="form-control" required placeholder="Enter full name">
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Email Address *</label>
                         <input type="email" name="email" class="form-control" required placeholder="name@example.com">
@@ -97,43 +83,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <textarea name="message" rows="5" class="form-control" required placeholder="Write your message here..."></textarea>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: auto;">
                     <i class="fas fa-paper-plane"></i> Send Message
                 </button>
             </form>
         </div>
 
         <!-- Contact Information & Address -->
-        <div>
-            <div style="background: linear-gradient(135deg, #1b4332, #2d6a4f); color: #fff; padding: 36px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md); margin-bottom: 30px;">
-                <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 20px;">Store Information</h3>
+        <div style="margin: 0 auto; width: 100%; max-width: 400px; height: 100%; text-align: left;">
+            <div class="dark-card" style="margin-bottom: 0; justify-content: center;">
+                <h3 style="color: #fff; font-size: 1.7rem; margin-bottom: 36px; text-align: center;">Store Information</h3>
                 
-                <div style="display: flex; gap: 16px; margin-bottom: 24px;">
-                    <i class="fas fa-map-marker-alt" style="font-size: 1.4rem; color: var(--secondary-color); margin-top: 4px;"></i>
+                <div style="display: flex; gap: 20px; margin-bottom: 36px;">
+                    <i class="fas fa-map-marker-alt" style="font-size: 1.6rem; color: var(--secondary-color); margin-top: 4px;"></i>
                     <div>
-                        <h4 style="color: #fff; font-size: 1.05rem;">Our Office & Kitchen</h4>
-                        <p style="color: #d8f3dc; font-size: 0.9rem;">RM's Sampoorna Food Products<br>Bengaluru, Karnataka - 560001, India</p>
+                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">Our Office & Kitchen</h4>
+                        <p style="color: #d8f3dc; font-size: 1rem; line-height: 1.5;">Rithamaya Food Products<br>Bengaluru, Karnataka - 560001, India</p>
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 16px; margin-bottom: 24px;">
-                    <i class="fas fa-phone-alt" style="font-size: 1.4rem; color: var(--secondary-color); margin-top: 4px;"></i>
+                <div style="display: flex; gap: 20px; margin-bottom: 36px;">
+                    <i class="fas fa-phone-alt" style="font-size: 1.6rem; color: var(--secondary-color); margin-top: 4px;"></i>
                     <div>
-                        <h4 style="color: #fff; font-size: 1.05rem;">Call / WhatsApp Us</h4>
-                        <p style="color: #d8f3dc; font-size: 0.9rem;">+91 98765 43210 / +91 98765 43211</p>
+                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">Call / WhatsApp Us</h4>
+                        <p style="color: #d8f3dc; font-size: 1rem;">+91 98765 43210<br>+91 98765 43211</p>
                     </div>
                 </div>
 
-                <div style="display: flex; gap: 16px;">
-                    <i class="fas fa-envelope" style="font-size: 1.4rem; color: var(--secondary-color); margin-top: 4px;"></i>
+                <div style="display: flex; gap: 20px;">
+                    <i class="fas fa-envelope" style="font-size: 1.6rem; color: var(--secondary-color); margin-top: 4px;"></i>
                     <div>
-                        <h4 style="color: #fff; font-size: 1.05rem;">Email Support</h4>
-                        <p style="color: #d8f3dc; font-size: 0.9rem;">support@rithamaya.com</p>
+                        <h4 style="color: #fff; font-size: 1.15rem; margin-bottom: 8px;">Email Support</h4>
+                        <p style="color: #d8f3dc; font-size: 1rem;">support@rithamaya.com</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

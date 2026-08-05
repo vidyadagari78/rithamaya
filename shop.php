@@ -21,7 +21,7 @@ if ($GLOBALS['db_connected']) {
             $params[] = $selected_category;
         }
 
-        $sql .= " ORDER BY p.updated_at DESC, p.id DESC";
+        $sql .= " AND p.id != 11 ORDER BY p.id DESC";
         $stmt = $pdo->prepare($sql);
         $stmt->execute($params);
         $products = $stmt->fetchAll();
@@ -30,7 +30,7 @@ if ($GLOBALS['db_connected']) {
     }
 }
 
-if (empty($products)) {
+if (!$GLOBALS['db_connected']) {
     $products = get_mock_products();
     if (!empty($search_query)) {
         $products = array_filter($products, function($item) use ($search_query) {
@@ -45,139 +45,135 @@ if (empty($products)) {
 }
 ?>
 
-<!-- Shop Page Hero Banner (With Rich Background Image & Badges) -->
-<div class="shop-hero-banner" style="background: linear-gradient(rgba(14, 35, 26, 0.78), rgba(14, 35, 26, 0.85)), url('assets/images/shop_banner_bg.png') center/cover no-repeat; padding: 50px 0; margin-bottom: 30px;">
-    <div class="container shop-banner-content" style="text-align: center; color: #fff;">
-        <span style="color: #5CB832; font-weight: 800; font-size: 0.88rem; text-transform: uppercase; letter-spacing: 1.5px; display: block; margin-bottom: 6px;">ORGANIC STORE CATALOG</span>
-        <h1 class="shop-banner-title" style="font-size: 2.6rem; font-weight: 900; color: #fff; margin-bottom: 8px;">RM's Sampoorna Products</h1>
-        <p class="shop-banner-subtitle" style="color: #d8f3dc; font-size: 1.05rem; max-width: 650px; margin: 0 auto 24px;">Browse our complete catalog of organic masalas, health mix powders, and traditional foods</p>
-        
-        <!-- Floating Feature Badges Row -->
-        <div class="shop-banner-badges">
-            <div class="banner-badge-item">
-                <i class="fas fa-leaf"></i> <span>100% ORGANIC</span>
-            </div>
-            <div class="banner-badge-item">
-                <i class="fas fa-house-chimney"></i> <span>HOME MADE</span>
-            </div>
-            <div class="banner-badge-item">
-                <i class="fas fa-ban"></i> <span>NO PRESERVATIVES</span>
-            </div>
-            <div class="banner-badge-item">
-                <i class="fas fa-truck-fast"></i> <span>FAST SHIPPING</span>
-            </div>
-        </div>
+<!-- Shop Page Banner -->
+<div class="shop-hero-banner" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1596040033229-a9821ebd058d?w=1600&auto=format&fit=crop') center/cover; padding: 60px 20px; text-align: center; color: white;">
+    <h1 style="color: white; font-size: 2.8rem; margin-bottom: 10px; font-weight: 700; text-shadow: 2px 2px 8px rgba(0,0,0,0.4);">Rithamaya Products</h1>
+    <p style="font-size: 1.1rem; color: #f8f9fa; max-width: 650px; margin: 0 auto 30px; text-shadow: 1px 1px 4px rgba(0,0,0,0.5);">Browse our complete catalog of organic masalas, health mix powders, and traditional foods</p>
+    
+    <div style="display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 24px; background: rgba(255,255,255,0.95); padding: 12px 35px; border-radius: 50px; color: #1b4332; font-weight: 700; font-size: 0.85rem; box-shadow: 0 8px 20px rgba(0,0,0,0.3);">
+        <span style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-leaf" style="color: #2d6a4f; font-size: 1.1rem;"></i> 100% ORGANIC</span>
+        <span style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-house" style="color: #2d6a4f; font-size: 1.1rem;"></i> HOME MADE</span>
+        <span style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-ban" style="color: #e63946; font-size: 1.1rem;"></i> NO PRESERVATIVES</span>
+        <span style="display: flex; align-items: center; gap: 8px;"><i class="fas fa-truck-fast" style="color: #2d6a4f; font-size: 1.1rem;"></i> FAST SHIPPING</span>
     </div>
 </div>
 
-<!-- Category Tabs Filter Bar -->
-<div class="shop-filter-bar">
+<!-- Category Navigation Bar (Dark Green) -->
+<div style="background-color: #1b4332; padding: 15px 0; margin-bottom: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
     <div class="container">
-        <div class="filter-categories-pills">
-            <a href="shop.php" class="cat-pill <?= $selected_category == 'all' ? 'active' : '' ?>" data-category="all">
-                All Products
-            </a>
-            <a href="shop.php?category=health-mixes" class="cat-pill <?= $selected_category == 'health-mixes' ? 'active' : '' ?>" data-category="health-mixes">
-                🌾 Health Mixes
-            </a>
-            <a href="shop.php?category=masala-powders" class="cat-pill <?= $selected_category == 'masala-powders' ? 'active' : '' ?>" data-category="masala-powders">
-                🌶️ Masala Powders
-            </a>
-            <a href="shop.php?category=baby-food" class="cat-pill <?= $selected_category == 'baby-food' ? 'active' : '' ?>" data-category="baby-food">
-                👶 Baby Food
-            </a>
-            <a href="shop.php?category=sweets-laddus" class="cat-pill <?= $selected_category == 'sweets-laddus' ? 'active' : '' ?>" data-category="sweets-laddus">
-                🍯 Sweets & Laddus
-            </a>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+            <a href="shop.php" class="cat-chip <?= $selected_category == 'all' ? 'active' : '' ?>" style="background: <?= $selected_category == 'all' ? '#e9ecef' : '#fff' ?>; color: #1b4332; padding: 8px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">All Products</a>
+            <a href="shop.php?category=health-mixes" class="cat-chip <?= $selected_category == 'health-mixes' ? 'active' : '' ?>" style="background: <?= $selected_category == 'health-mixes' ? '#e9ecef' : '#fff' ?>; color: #1b4332; padding: 8px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"><i class="fas fa-bowl-food" style="margin-right:6px; color: #8B4513;"></i>Health Mixes</a>
+            <a href="shop.php?category=masala-powders" class="cat-chip <?= $selected_category == 'masala-powders' ? 'active' : '' ?>" style="background: <?= $selected_category == 'masala-powders' ? '#e9ecef' : '#fff' ?>; color: #1b4332; padding: 8px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"><i class="fas fa-mortar-pestle" style="margin-right:6px; color: #D2691E;"></i>Masala Powders</a>
+            <a href="shop.php?category=baby-food" class="cat-chip <?= $selected_category == 'baby-food' ? 'active' : '' ?>" style="background: <?= $selected_category == 'baby-food' ? '#e9ecef' : '#fff' ?>; color: #1b4332; padding: 8px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"><i class="fas fa-baby" style="margin-right:6px; color: #F4A460;"></i>Baby Food</a>
+            <a href="shop.php?category=sweets-laddus" class="cat-chip <?= $selected_category == 'sweets-laddus' ? 'active' : '' ?>" style="background: <?= $selected_category == 'sweets-laddus' ? '#e9ecef' : '#fff' ?>; color: #1b4332; padding: 8px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"><i class="fas fa-cookie" style="margin-right:6px; color: #DAA520;"></i>Sweets & Laddus</a>
+            <a href="shop.php?category=millets" class="cat-chip <?= $selected_category == 'millets' ? 'active' : '' ?>" style="background: <?= $selected_category == 'millets' ? '#e9ecef' : '#fff' ?>; color: #1b4332; padding: 8px 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"><i class="fas fa-seedling" style="margin-right:6px; color: #2E8B57;"></i>Millet Powders</a>
         </div>
+        
+        <?php if (!empty($search_query)): ?>
+            <div style="font-size: 0.9rem; color: #d8f3dc; text-align: center; margin-top: 15px;">
+                Showing results for: <strong>"<?= $search_query ?>"</strong> (<a href="shop.php" style="color: #fff; text-decoration: underline;">Clear</a>)
+            </div>
+        <?php endif; ?>
     </div>
 </div>
 
-<div class="container shop-grid-container">
-    <?php if (!empty($search_query)): ?>
-        <div style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px; padding-top: 10px;">
-            Showing results for: <strong>"<?= $search_query ?>"</strong> (<a href="shop.php" style="color: var(--primary-hover); text-decoration: underline;">Clear Search</a>)
-        </div>
-    <?php endif; ?>
-
+<div class="container">
     <!-- Product Grid -->
     <?php if (count($products) > 0): ?>
         <div class="product-grid">
             <?php foreach ($products as $product): ?>
-                <?php 
-                    $cat_slug = strtolower(str_replace([' & ', ' '], '-', $product['category_name'] ?? ''));
-                ?>
-                <div class="product-card" data-category="<?= $cat_slug ?>">
-                    <!-- Image Stage with Top Right Corner Badge -->
-                    <div class="product-img-wrapper">
-                        <?php if (!empty($product['badge'])): ?>
-                            <span class="product-corner-badge">
-                                <?= strtoupper(sanitize($product['badge'])) ?>
-                            </span>
-                        <?php endif; ?>
-                        
-                        <a href="product.php?id=<?= $product['id'] ?>" class="product-img-link">
-                            <img src="<?= sanitize($product['image']) ?>" alt="<?= sanitize($product['name']) ?>" class="product-img">
+                <div class="product-card">
+                    <div class="product-img-wrapper" style="position: relative;">
+                        <a href="product.php?id=<?= $product['id'] ?>">
+                            <img src="<?= sanitize($product['image']) ?>?v=<?= time() ?>" alt="<?= sanitize($product['name']) ?>" class="product-img">
                         </a>
+
+                        <div class="product-badge-wrap">
+                            <span class="badge-circle">
+                                <?= sanitize($product['badge']) ?>
+                            </span>
+                        </div>
                     </div>
 
-                    <!-- Details -->
                     <div class="product-details">
-                        <!-- Title & Rating Row -->
-                        <div class="ref-title-rating-row">
+                        <div class="product-header">
                             <h3 class="product-title">
                                 <a href="product.php?id=<?= $product['id'] ?>"><?= sanitize($product['name']) ?></a>
                             </h3>
-                            <span class="ref-star-rating"><i class="fas fa-star" style="color:#5CB832;"></i> 4.5</span>
+                            <span class="product-price"><?= format_price($product['price']) ?></span>
                         </div>
-
-                        <!-- Category Subtitle -->
-                        <div class="ref-category-sub"><?= sanitize($product['category_name'] ?? 'RM SAMPOORNA') ?></div>
-
-                        <!-- Price & Strikethrough Row -->
-                        <div class="ref-price-discount-row">
-                            <span class="ref-main-price"><?= format_price($product['price']) ?></span>
-                            <span class="ref-unit-text">/ pack</span>
-                            <span class="ref-original-price"><s><?= format_price($product['price'] * 1.15) ?></s></span>
-                        </div>
-
-                        <!-- Pack Weight Info -->
-                        <div class="ref-pack-info">Pack Weight: <?= sanitize($product['weight']) ?></div>
-
-                        <!-- Quantity & Add to Cart Form -->
-                        <form action="cart.php" method="POST" style="margin-top: auto;">
-                            <input type="hidden" name="action" value="add">
+                        
+                        <span class="product-brand">Rithamaya</span>
+                        
+                        <p class="product-short-desc">
+                            <?= sanitize($product['short_description'] ?? '') ?>
+                        </p>
+                        
+                        <?php if ($product['id'] == 1): ?>
+                            <div style="display: flex; gap: 8px; margin-bottom: 15px; margin-top: 5px;">
+                                <button type="button" class="variant-btn" onclick="selectVariant(this, 11, 349.00, '400gm', 'assets/images/products/Health mix powder.jpg')" style="border: 1px solid #dcdcdc; background: #fff; color: #555; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 500;">400gm</button>
+                                <button type="button" class="variant-btn active" onclick="selectVariant(this, 1, 699.00, '800gm', 'assets/images/products/health-mix-powder-400g-front.jpg')" style="border: 1px solid #dcdcdc; background: #2d6a4f; color: #fff; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 500;">800gm</button>
+                            </div>
+                        <?php endif; ?>
+                        
+                        <form action="cart.php" method="POST" class="add-cart-form" style="display: flex; gap: 8px; margin-top: auto;">
                             <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-
-                            <!-- Quantity Selector Pill -->
-                            <div class="ref-qty-pill">
-                                <button type="button" class="ref-qty-btn" onclick="updateQty(this, -1)">-</button>
-                                <input type="number" name="quantity" value="1" min="1" class="qty-input ref-qty-val" style="width: 40px; text-align: center; border: none; background: transparent; font-weight: 800; font-size: 0.95rem; color: #000;">
-                                <button type="button" class="ref-qty-btn" onclick="updateQty(this, 1)">+</button>
-                            </div>
-
-                            <!-- Action Buttons Row -->
-                            <div class="ref-actions-row">
-                                <button type="submit" class="ref-cart-green-btn">
-                                    <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
-                                </button>
-                                <a href="product.php?id=<?= $product['id'] ?>" class="ref-bulk-inquiry-btn">
-                                    <i class="fas fa-eye" style="margin-right: 4px;"></i> View Details
-                                </a>
-                            </div>
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" name="action" value="buy_now" style="flex: 1; height: 40px; padding: 0; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 8px; background: #fff; color: var(--primary-color); border: 1px solid var(--primary-color); border-radius: 4px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                BUY NOW
+                            </button>
+                            <button type="submit" name="action" value="add" class="add-cart-btn-full" style="flex: 1; height: 40px; padding: 0; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <i class="fas fa-cart-plus"></i> ADD
+                            </button>
                         </form>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
     <?php else: ?>
-        <div style="text-align: center; padding: 70px 20px; background: #fff; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin: 40px 0;">
-            <i class="fas fa-box-open" style="font-size: 3.5rem; color: var(--secondary-color); margin-bottom: 18px;"></i>
-            <h2 style="font-size: 1.8rem; margin-bottom: 8px;">No Products Found</h2>
-            <p style="color: var(--text-muted); margin-bottom: 24px;">We couldn't find any products matching your criteria.</p>
+        <div style="text-align: center; padding: 60px 0; background: #fff; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+            <i class="fas fa-box-open" style="font-size: 3rem; color: var(--secondary-color); margin-bottom: 16px;"></i>
+            <h2>No Products Found</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">We couldn't find any products matching your selected criteria.</p>
             <a href="shop.php" class="btn btn-primary">Browse All Products</a>
         </div>
     <?php endif; ?>
 </div>
+
+<script>
+function selectVariant(btn, pid, price, weight, imageUrl) {
+    let card = btn.closest('.product-details').parentElement;
+    
+    // Update active button styles
+    card.querySelectorAll('.variant-btn').forEach(b => {
+        b.style.background = '#fff';
+        b.style.color = '#555';
+        b.classList.remove('active');
+    });
+    btn.style.background = '#2d6a4f';
+    btn.style.color = '#fff';
+    btn.classList.add('active');
+    
+    // Update price
+    card.querySelector('.product-price').innerText = '₹' + price.toFixed(2);
+    
+    // Update hidden product id input for cart
+    card.querySelector('input[name="product_id"]').value = pid;
+    
+    // Update image if provided
+    if (imageUrl) {
+        card.querySelector('.product-img').src = imageUrl + '?v=' + new Date().getTime();
+    }
+    
+    // Update links to product page
+    card.querySelectorAll('a').forEach(link => {
+        let href = link.getAttribute('href');
+        if (href && href.startsWith('product.php')) {
+            link.setAttribute('href', 'product.php?id=' + pid);
+        }
+    });
+}
+</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>

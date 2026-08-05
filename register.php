@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $check = $pdo->prepare("SELECT id FROM users WHERE email = ?");
                 $check->execute([$email]);
                 if ($check->fetch()) {
-                    $errors[] = "An account with this email already exists.";
+                    $errors[] = "EMAIL ALREADY EXIST KINDLY LOGIN";
                 } else {
                     $stmt = $pdo->prepare("INSERT INTO users (full_name, email, phone, password, role) VALUES (?, ?, ?, ?, 'customer')");
                     $stmt->execute([$full_name, $email, $phone, $hashed_password]);
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['user_name'] = $full_name;
                     $_SESSION['user_email'] = $email;
                     $_SESSION['user_role'] = 'customer';
-                    $_SESSION['success_msg'] = "Registration successful! Welcome to RM's Sampoorna.";
+                    $_SESSION['success_msg'] = "Registration successful! Welcome to Rithamaya.";
                     header("Location: account.php");
                     exit;
                 }
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="container" style="margin-top: 50px; margin-bottom: 80px;">
     <div style="max-width: 480px; margin: 0 auto; background: #fff; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
         <h2 style="font-size: 1.8rem; text-align: center; margin-bottom: 8px;">Create New Account</h2>
-        <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px;">Join RM's Sampoorna for easy ordering and exclusive offers</p>
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px;">Join Rithamaya for easy ordering and exclusive offers</p>
 
         <?php if (!empty($errors)): ?>
             <div class="alert alert-danger">

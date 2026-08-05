@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/includes/header.php';
 
-$product_id = isset($_GET['id']) ? (int)$_GET['id'] : 1; // Default to RITHAMAYA 35+ Multigrain Health Mix
+$product_id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
 $product = null;
 
 if ($GLOBALS['db_connected']) {
@@ -23,272 +23,221 @@ if (!$product) {
         }
     }
     if (!$product) {
-        $product = $all_mock[0]; // Default to RITHAMAYA 35+ Multigrain Health Mix Powder
+        $product = $all_mock[0];
     }
 }
 
-// Fetch 4 related products
+// Fetch related products
 $related_products = [];
-if ($GLOBALS['db_connected']) {
+if ($GLOBALS['db_connected'] && $product) {
     try {
-        $stmt = $pdo->prepare("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.id != ? ORDER BY RAND() LIMIT 4");
-        $stmt->execute([$product_id]);
+        $stmt = $pdo->prepare("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.category_id = ? AND p.id != ? LIMIT 4");
+        $stmt->execute([$product['category_id'], $product['id']]);
         $related_products = $stmt->fetchAll();
+        
+        // If not enough related products in the same category, fill with random ones
+        if (count($related_products) < 4) {
+            $limit = 4 - count($related_products);
+            $exclude_ids = array_merge([$product['id']], array_column($related_products, 'id'));
+            $placeholders = implode(',', array_fill(0, count($exclude_ids), '?'));
+            $stmt2 = $pdo->prepare("SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.id NOT IN ($placeholders) LIMIT $limit");
+            $stmt2->execute($exclude_ids);
+            $related_products = array_merge($related_products, $stmt2->fetchAll());
+        }
     } catch (Exception $e) {
         $related_products = [];
     }
 }
 
-if (empty($related_products)) {
+if (empty($related_products) && $product) {
     $all_mock = get_mock_products();
-    $related_products = array_filter($all_mock, function($item) use ($product_id) {
-        return $item['id'] != $product_id;
-    });
-    $related_products = array_slice(array_values($related_products), 0, 4);
+    foreach ($all_mock as $m) {
+        if ($m['id'] != $product['id']) {
+            $related_products[] = $m;
+            if (count($related_products) >= 4) break;
+        }
+    }
+}
+
+$has_3d_images = false;
+if ($product['id'] == 11) { // 400g Product
+    $has_3d_images = true;
+    $front_img = 'assets/images/products/Health mix powder.jpg';
+    $back_img = 'assets/images/products/health-mix-powder-400g-back.jpg';
+    $side1_img = 'assets/images/products/health-mix-powder-400g-Side 1.jpg';
+    $side2_img = 'assets/images/products/health-mix-powder-400g-side2.jpg';
+} elseif ($product['id'] == 1) { // 800g Product
+    $has_3d_images = true;
+    $front_img = 'assets/images/products/health-mix-powder-400g-front.jpg';
+    $back_img = 'assets/images/products/health-mix-powder-back-800g.jpg';
+    $side1_img = 'assets/images/products/health-mix-powder-side1-800g.jpg';
+    $side2_img = 'assets/images/products/health-mix-powder-side2-800g.jpg';
+} elseif ($product['id'] == 2) { // Baby Ragi Sari Powder
+    $has_3d_images = true;
+    $front_img = 'assets/images/products/baby-ragi-sari-powder.jpg';
+    $back_img = 'assets/images/products/baby ragi sari powder back.jpg';
+    $side1_img = 'assets/images/products/baby ragi sari powder side 1.jpg';
+    $side2_img = 'assets/images/products/Baby ragi sari powder side 2.jpg';
 }
 ?>
 
-<div class="product-page-wrapper">
-    <div class="container">
-        <!-- Breadcrumb -->
-        <nav class="product-breadcrumb">
-            <a href="index.php">Home</a> / <a href="shop.php">Shop</a> / <span class="active-crumb"><?= sanitize($product['name']) ?></span>
-        </nav>
+<div class="container" style="margin-top: 40px; margin-bottom: 60px;">
+    <!-- Breadcrumb -->
+    <div style="margin-bottom: 24px; font-size: 0.9rem; color: var(--text-muted);">
+        <a href="index.php">Home</a> / <a href="shop.php">Shop</a> / <span style="color: var(--primary-color); font-weight: 600;"><?= sanitize($product['name']) ?></span>
+    </div>
 
-        <!-- Product Main Detail Card -->
-        <div class="product-detail-card">
-            <!-- Left Column: Product Image & Video Media Stage -->
-            <div class="product-detail-img-stage">
-                <div id="productMediaImage" class="media-tab-content active">
-                    <img src="<?= sanitize($product['image']) ?>" alt="<?= sanitize($product['name']) ?>" class="product-detail-img">
-                </div>
-                
-                <div id="productMediaVideo" class="media-tab-content" style="display: none;">
-                    <div class="product-detail-video-container">
-                        <video id="detailProductVideo" controls loop playsinline poster="<?= sanitize($product['image']) ?>" class="product-detail-video">
-                            <source src="assets/videos/hero-banner-video.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        <div class="product-video-badge">
-                            <i class="fas fa-leaf"></i> <?= sanitize($product['name']) ?> Preparation & Benefits
+    <!-- Product Detail Layout -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; background: #fff; padding: 40px; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+        <!-- Product Image -->
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <?php if (isset($has_3d_images) && $has_3d_images): ?>
+                <!-- 3D Interactive Box Viewer -->
+                <div class="scene" style="width: 360px; height: 360px; perspective: 1200px; margin: 0 auto; user-select: none; padding-top: 40px;">
+                    <div class="cube" id="productCube" style="width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: translateZ(-150px) rotateX(-15deg) rotateY(-35deg);">
+                        <!-- Front Face -->
+                        <div class="cube__face" style="position: absolute; width: 300px; height: 360px; left: 30px; background: #fff; border-radius: 4px; box-shadow: inset 0 0 15px rgba(0,0,0,0.05), 0 0 1px rgba(0,0,0,0.2); transform: rotateY(0deg) translateZ(80px); overflow: hidden;">
+                            <img src="<?= $front_img ?>" alt="Front" style="width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; transform: scale(1.18);">
                         </div>
+                        <!-- Right Face -->
+                        <div class="cube__face" style="position: absolute; width: 160px; height: 360px; left: 100px; background: #e8e8e8; border-radius: 4px; box-shadow: inset 0 0 25px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.2); transform: rotateY(90deg) translateZ(150px); overflow: hidden;">
+                            <img src="<?= $side1_img ?>" alt="Side 1" style="width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; transform: scale(1.18);">
+                        </div>
+                        <!-- Back Face -->
+                        <div class="cube__face" style="position: absolute; width: 300px; height: 360px; left: 30px; background: #fff; border-radius: 4px; box-shadow: inset 0 0 15px rgba(0,0,0,0.05), 0 0 1px rgba(0,0,0,0.2); transform: rotateY(180deg) translateZ(80px); overflow: hidden;">
+                            <img src="<?= $back_img ?>" alt="Back" style="width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; transform: scale(1.18);">
+                        </div>
+                        <!-- Left Face -->
+                        <div class="cube__face" style="position: absolute; width: 160px; height: 360px; left: 100px; background: #e8e8e8; border-radius: 4px; box-shadow: inset 0 0 25px rgba(0,0,0,0.1), 0 0 1px rgba(0,0,0,0.2); transform: rotateY(-90deg) translateZ(150px); overflow: hidden;">
+                            <img src="<?= $side2_img ?>" alt="Side 2" style="width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; transform: scale(1.18);">
+                        </div>
+                        <!-- Top Face -->
+                        <div class="cube__face" style="position: absolute; width: 300px; height: 160px; left: 30px; top: 100px; background: #fdfdfd; border: 1px solid #ddd; transform: rotateX(90deg) translateZ(180px);"></div>
+                        <!-- Bottom Face -->
+                        <div class="cube__face" style="position: absolute; width: 300px; height: 160px; left: 30px; top: 100px; background: #fdfdfd; border: 1px solid #ddd; transform: rotateX(-90deg) translateZ(180px); box-shadow: 0 0 30px rgba(0,0,0,0.4);"></div>
                     </div>
                 </div>
 
-                <!-- Media Selector Switcher -->
-                <div class="product-media-tabs">
-                    <button type="button" class="media-tab-btn active" onclick="switchProductMedia('image', this)">
-                        <i class="fas fa-box-open"></i> Product Box
-                    </button>
-                    <button type="button" class="media-tab-btn video-btn-highlight" onclick="switchProductMedia('video', this)">
-                        <i class="fas fa-play-circle"></i> Watch Product Video
-                    </button>
-                </div>
-            </div>
+                <script>
+                    const cube = document.getElementById('productCube');
+                    let currentAngleY = -35; // Start at an angle
 
-            <!-- Right Column: Product Info & Actions -->
-            <div class="product-detail-info">
-                <!-- Top Badge & Subcategory -->
-                <div class="product-detail-badge-row">
-                    <span class="detail-cat-badge"><?= strtoupper(sanitize($product['badge'] ?? 'ORGANIC')) ?></span>
-                </div>
-                
-                <div class="product-detail-category">
-                    <?= strtoupper(sanitize($product['category_name'] ?? 'BABY & INFANT FOOD')) ?>
-                </div>
+                    cube.style.cursor = 'pointer';
+                    cube.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
 
-                <h1 class="product-detail-title"><?= sanitize($product['name']) ?></h1>
-
-                <!-- Price Row -->
-                <div class="product-detail-price-row">
-                    <span class="detail-main-price"><?= format_price($product['price']) ?></span>
-                    <span class="detail-tax-note">(Inclusive of all taxes)</span>
-                </div>
-
-                <!-- Description -->
-                <p class="product-detail-desc">
-                    <?= sanitize($product['description']) ?>
-                </p>
-
-                <?php if ($product['id'] == 1 || $product['id'] == 10 || strpos(strtolower($product['name']), 'multigrain') !== false): ?>
-                <!-- Pack Size Quantity Variant Selector -->
-                <div class="pack-size-selector-box" style="margin-bottom: 22px;">
-                    <label style="display: block; font-weight: 800; font-size: 0.95rem; color: #1b4332; margin-bottom: 10px;">
-                        <i class="fas fa-weight-hanging" style="color:#008744; margin-right: 6px;"></i> Select Pack Size / Quantity:
-                    </label>
-                    <div class="variant-pills-grid" style="display: flex; gap: 14px; flex-wrap: wrap;">
-                        <button type="button" class="variant-pill <?= ($product['weight'] == '400g' || $product['id'] == 1) ? 'active' : '' ?>" 
-                                onclick="selectPackVariant('400g', 299.00, 'assets/images/products/multigrain-health-mix-400g.png', this)">
-                            <div class="v-pill-weight">400g Pack</div>
-                            <div class="v-pill-price">₹299.00</div>
-                            <span class="v-pill-badge">Standard</span>
-                        </button>
-                        <button type="button" class="variant-pill <?= ($product['weight'] == '800g' || $product['id'] == 10) ? 'active' : '' ?>" 
-                                onclick="selectPackVariant('800g', 549.00, 'assets/images/products/multigrain-health-mix-800g.png', this)">
-                            <div class="v-pill-weight">800g Family Pack</div>
-                            <div class="v-pill-price">₹549.00 <small style="color:#2e7d32; font-size:0.75rem; font-weight:800;">(Save ₹49)</small></div>
-                            <span class="v-pill-badge v-best-val">Best Value</span>
-                        </button>
-                    </div>
-                </div>
-                <?php endif; ?>
-
-                <!-- Highlights Box -->
-                <div class="product-highlights-box">
-                    <p><strong>Net Weight:</strong> <span id="displayWeightVal"><?= sanitize($product['weight']) ?></span></p>
-                    <p><strong>Availability:</strong> <span class="stock-status-in">In Stock (<?= $product['stock'] ?> units)</span></p>
-                    <p><strong>Formulation:</strong> 100% Natural, No Added Colors or Preservatives</p>
-                </div>
-
-                <!-- Add to Cart Form -->
-                <form action="cart.php" method="POST" class="product-detail-cart-form">
-                    <input type="hidden" name="action" value="add">
-                    <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
-                    <input type="hidden" name="selected_weight" id="selectedWeightInput" value="<?= sanitize($product['weight']) ?>">
-                    <input type="hidden" name="selected_price" id="selectedPriceInput" value="<?= sanitize($product['price']) ?>">
-
-                    <div class="detail-qty-control">
-                        <button type="button" class="detail-qty-btn" onclick="updateQty(this, -1)">-</button>
-                        <input type="number" name="quantity" value="1" min="1" class="qty-input detail-qty-val">
-                        <button type="button" class="detail-qty-btn" onclick="updateQty(this, 1)">+</button>
-                    </div>
-
-                    <button type="submit" class="btn-dark-green-cart">
-                        <i class="fas fa-shopping-basket" style="margin-right: 6px;"></i> Add to Cart
-                    </button>
-                </form>
-
-                <!-- Guarantees Row -->
-                <div class="product-guarantees-row">
-                    <div class="guarantee-item">
-                        <i class="fas fa-shield-halved"></i> 100% Quality Guaranteed
-                    </div>
-                    <div class="guarantee-item">
-                        <i class="fas fa-leaf"></i> Organic Farm Ingredients
-                    </div>
-                </div>
-            </div>
+                    cube.addEventListener('click', () => {
+                        currentAngleY -= 90; // Turn to the next side
+                        cube.style.transform = `translateZ(-150px) rotateX(-15deg) rotateY(${currentAngleY}deg)`;
+                    });
+                </script>
+            <?php else: ?>
+                <img src="<?= htmlspecialchars($product['image']) ?>?v=<?= time() ?>" alt="<?= htmlspecialchars($product['name']) ?>" style="width: 100%; border-radius: var(--radius-md); max-height: 440px; object-fit: cover;">
+            <?php endif; ?>
         </div>
 
-        <!-- Related Products Section -->
-        <div class="related-products-section">
-            <div class="related-header">
-                <h2>Related Products</h2>
-                <p>Fresh products you might also need</p>
+        <!-- Product Info & Actions -->
+        <div>
+            <span class="badge badge-organic" style="margin-bottom: 12px;"><?= sanitize($product['badge']) ?></span>
+            <p style="font-size: 0.85rem; color: var(--secondary-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px;">
+                <?= sanitize($product['category_name']) ?>
+            </p>
+            <h1 style="font-size: 2.2rem; margin-bottom: 14px;"><?= sanitize($product['name']) ?></h1>
+            
+            <div style="display: flex; align-items: baseline; gap: 16px; margin-bottom: 20px;">
+                <span style="font-size: 2.2rem; font-weight: 800; color: var(--primary-color); font-family: 'Outfit', sans-serif;">
+                    <?= format_price($product['price']) ?>
+                </span>
+                <span style="color: var(--text-muted); font-size: 0.95rem;">(Inclusive of all taxes)</span>
             </div>
 
-            <div class="product-grid">
-                <?php foreach ($related_products as $rel): ?>
-                    <div class="product-card">
-                        <div class="product-img-wrapper">
-                            <?php if (!empty($rel['badge'])): ?>
-                                <span class="product-corner-badge">
-                                    <?= strtoupper(sanitize($rel['badge'])) ?>
-                                </span>
-                            <?php endif; ?>
-                            <a href="product.php?id=<?= $rel['id'] ?>" class="product-img-link">
-                                <img src="<?= sanitize($rel['image']) ?>" alt="<?= sanitize($rel['name']) ?>" class="product-img">
-                            </a>
-                        </div>
+            <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin-bottom: 24px;">
+                <?= sanitize($product['description']) ?>
+            </p>
 
-                        <div class="product-details">
-                            <div class="ref-title-rating-row">
-                                <h3 class="product-title">
-                                    <a href="product.php?id=<?= $rel['id'] ?>"><?= sanitize($rel['name']) ?></a>
-                                </h3>
-                                <span class="ref-star-rating"><i class="fas fa-star" style="color:#5CB832;"></i> 4.5</span>
-                            </div>
+            <div style="background: #fdfbf7; border-left: 4px solid var(--secondary-color); padding: 16px; border-radius: var(--radius-sm); margin-bottom: 24px;">
+                <p style="font-size: 0.9rem; margin-bottom: 4px;"><strong>Net Weight:</strong> <?= sanitize($product['weight']) ?></p>
+                <p style="font-size: 0.9rem; margin-bottom: 4px;"><strong>Availability:</strong> <span style="color: green; font-weight: 600;">In Stock (<?= $product['stock'] ?> units)</span></p>
+                <p style="font-size: 0.9rem;"><strong>Formulation:</strong> 100% Natural, No Added Colors or Preservatives</p>
+            </div>
 
-                            <div class="ref-category-sub"><?= sanitize($rel['category_name'] ?? 'RM SAMPOORNA') ?></div>
+            <!-- Add to Cart Form -->
+            <form action="cart.php" method="POST" style="display: flex; gap: 16px; align-items: center; margin-bottom: 30px;">
+                <input type="hidden" name="action" value="add">
+                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
 
-                            <div class="ref-price-discount-row">
-                                <span class="ref-main-price"><?= format_price($rel['price']) ?></span>
-                                <span class="ref-unit-text">/ pack</span>
-                                <span class="ref-original-price"><s><?= format_price($rel['price'] * 1.15) ?></s></span>
-                            </div>
+                <div class="qty-control">
+                    <button type="button" class="qty-btn" onclick="updateQty(this, -1)">-</button>
+                    <input type="number" name="quantity" value="1" min="1" class="qty-input">
+                    <button type="button" class="qty-btn" onclick="updateQty(this, 1)">+</button>
+                </div>
 
-                            <div class="ref-pack-info">Pack Weight: <?= sanitize($rel['weight']) ?></div>
+                <button type="submit" class="btn btn-primary" style="flex-grow: 1;">
+                    <i class="fas fa-shopping-basket"></i> Add to Cart
+                </button>
+            </form>
 
-                            <form action="cart.php" method="POST" style="margin-top: auto;">
-                                <input type="hidden" name="action" value="add">
-                                <input type="hidden" name="product_id" value="<?= $rel['id'] ?>">
-
-                                <div class="ref-qty-pill">
-                                    <button type="button" class="ref-qty-btn" onclick="updateQty(this, -1)">-</button>
-                                    <input type="number" name="quantity" value="1" min="1" class="qty-input ref-qty-val" style="width: 40px; text-align: center; border: none; background: transparent; font-weight: 800; font-size: 0.95rem; color: #000;">
-                                    <button type="button" class="ref-qty-btn" onclick="updateQty(this, 1)">+</button>
-                                </div>
-
-                                <div class="ref-actions-row">
-                                    <button type="submit" class="ref-cart-green-btn">
-                                        <i class="fas fa-shopping-cart" style="margin-right: 4px;"></i> Add to Cart
-                                    </button>
-                                     <a href="product.php?id=<?= $rel['id'] ?>" class="ref-bulk-inquiry-btn">
-                                         <i class="fas fa-eye" style="margin-right: 4px;"></i> View Details
-                                     </a>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+            <div style="border-top: 1px solid var(--border-color); padding-top: 20px; display: flex; gap: 30px;">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted);">
+                    <i class="fas fa-shield-halved" style="color: var(--primary-color);"></i> 100% Quality Guaranteed
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted);">
+                    <i class="fas fa-leaf" style="color: var(--primary-color);"></i> Organic Farm Ingredients
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Related Products Section -->
+    <?php if (!empty($related_products)): ?>
+    <div style="margin-top: 80px;">
+        <h2 style="font-size: 1.8rem; margin-bottom: 25px; color: #1b4332;">Related Products</h2>
+        <p style="color: var(--text-muted); margin-bottom: 30px; font-size: 0.95rem;">Fresh products you might also need</p>
+        
+        <div class="product-grid">
+            <?php foreach ($related_products as $rel_product): ?>
+                <div class="product-card">
+                    <div class="product-img-wrapper">
+                        <a href="product.php?id=<?= $rel_product['id'] ?>">
+                            <img src="<?= sanitize($rel_product['image']) ?>" alt="<?= sanitize($rel_product['name']) ?>" class="product-img">
+                        </a>
+                        <div class="product-badge-wrap">
+                            <span class="badge-circle">
+                                <?= sanitize($rel_product['badge']) ?>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="product-details">
+                        <div class="product-header">
+                            <h3 class="product-title">
+                                <a href="product.php?id=<?= $rel_product['id'] ?>"><?= sanitize($rel_product['name']) ?></a>
+                            </h3>
+                            <span class="product-price"><?= format_price($rel_product['price']) ?></span>
+                        </div>
+                        
+                        <span class="product-brand">Rithamaya</span>
+                        
+                        <p class="product-short-desc">
+                            <?= sanitize($rel_product['short_description'] ?? '') ?>
+                        </p>
+                        
+                        <form action="cart.php" method="POST" class="add-cart-form" style="display: flex; gap: 8px; margin-top: auto;">
+                            <input type="hidden" name="product_id" value="<?= $rel_product['id'] ?>">
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" name="action" value="buy_now" style="flex: 1; height: 40px; padding: 0; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 8px; background: #fff; color: var(--primary-color); border: 1px solid var(--primary-color); border-radius: 4px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                BUY NOW
+                            </button>
+                            <button type="submit" name="action" value="add" class="add-cart-btn-full" style="flex: 1; height: 40px; padding: 0; margin-top: 0; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <i class="fas fa-cart-plus"></i> ADD
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+
 </div>
-
-<script>
-function selectPackVariant(weight, price, imageSrc, btn) {
-    document.querySelectorAll('.variant-pill').forEach(p => p.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    
-    // Update main stage image
-    const mainImg = document.querySelector('#productMediaImage img');
-    if (mainImg) {
-        mainImg.src = imageSrc;
-    }
-    
-    // Update price display
-    const priceDisplay = document.querySelector('.detail-main-price');
-    if (priceDisplay) {
-        priceDisplay.textContent = '₹' + parseFloat(price).toFixed(2);
-    }
-    
-    // Update net weight text
-    const weightDisplay = document.getElementById('displayWeightVal');
-    if (weightDisplay) {
-        weightDisplay.textContent = weight;
-    }
-    
-    // Update hidden form inputs
-    const weightInput = document.getElementById('selectedWeightInput');
-    const priceInput = document.getElementById('selectedPriceInput');
-    if (weightInput) weightInput.value = weight;
-    if (priceInput) priceInput.value = price;
-}
-
-function switchProductMedia(type, btn) {
-    const imgTab = document.getElementById('productMediaImage');
-    const videoTab = document.getElementById('productMediaVideo');
-    const videoElem = document.getElementById('detailProductVideo');
-    
-    document.querySelectorAll('.media-tab-btn').forEach(b => b.classList.remove('active'));
-    if (btn) btn.classList.add('active');
-    
-    if (type === 'video') {
-        if (imgTab) imgTab.style.display = 'none';
-        if (videoTab) videoTab.style.display = 'block';
-        if (videoElem) {
-            videoElem.currentTime = 0;
-            videoElem.play();
-        }
-    } else {
-        if (videoTab) videoTab.style.display = 'none';
-        if (imgTab) imgTab.style.display = 'block';
-        if (videoElem) {
-            videoElem.pause();
-        }
-    }
-}
-</script>
 
 <?php require_once __DIR__ . '/includes/footer.php'; ?>
